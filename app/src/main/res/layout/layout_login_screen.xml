@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/tvEnterPhoneHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:text="@string/txt_header_enter_phone"
+        style="@style/header_login_screen_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.mukesh.OtpView
+        android:id="@+id/etPhoneNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_46sdp"
+        android:layout_marginStart="@dimen/_7sdp"
+        android:layout_marginEnd="@dimen/_7sdp"
+        android:itemBackground="@color/colorNumberBoxBackground"
+        app:itemCount="10"
+        android:alpha="0.3"
+        app:viewType="rectangle"
+        app:itemWidth="@dimen/_20sdp"
+        app:itemHeight="@dimen/_30sdp"
+        app:itemSpacing="@dimen/_4sdp"
+        app:cursorColor="@color/colorBlack"
+        android:textSize="@dimen/_16ssp"
+        tools:text="9431609157"
+        android:cursorVisible="true"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="@font/roboto_bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvEnterPhoneHeader" />
+
+    <carbon.widget.Button
+        android:id="@+id/btnSendOtp"
+        android:layout_width="0dp"
+        android:layout_marginBottom="@dimen/_31sdp"
+        android:text="@string/txt_send_otp"
+        style="@style/loginButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTermsConditions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_27sdp"
+        android:layout_marginEnd="@dimen/_27sdp"
+        android:layout_marginBottom="@dimen/_9sdp"
+        android:text="@string/txt_agree_terms_conditions"
+        android:textSize="@dimen/_12ssp"
+        android:gravity="center"
+        android:textColor="@color/colorTextGreyA7"
+        android:fontFamily="@font/roboto"
+        app:layout_constraintBottom_toTopOf="@+id/btnSendOtp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

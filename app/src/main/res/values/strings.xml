@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Niro App</string>
+    <string name="label_niro">Niro</string>
+    <string name="txt_app_subtitle">Bharat Ek Krishi Pradhan Desh Hai</string>
+    <string name="txt_header_enter_phone">Enter Mobile Number</string>
+    <string name="txt_send_otp">Send OTP</string>
+    <string name="txt_agree_terms_conditions"><![CDATA[I agree to Niro\'s Terms & Conditions]]></string>
+    <string name="txt_enter_otp">Enter 6 digit OTP</string>
+    <string name="txt_verify_number">Verify Number</string>
+    <string name="txt_resend_otp">OTP Not Received? Resend OTP</string>
+    <string name="txt_header_name">What\'s Your Name?</string>
+    <string name="txt_enter_name_hint">Enter Full Name</string>
+    <string name="txt_btn_next">Next</string>
+    <string name="txt_header_enter_business">Name Of Your Business</string>
+    <string name="txt_enter_business">Enter Business Name</string>
+</resources>
