@@ -1,13 +1,15 @@
 package com.niro.niroapp.utils
 
 import android.content.Context
+import androidx.lifecycle.ViewModelProvider
 
-class NiroAppUtils {
+object NiroAppUtils {
 
-    companion object {
-        @JvmStatic
-        fun getPxFromDP(context: Context, dp : Float) : Float {
-            return dp * context.resources.displayMetrics.density
-        }
+
+    @JvmStatic
+    fun getPxFromDP(context: Context, dp: Float): Float {
+        return dp * context.resources.displayMetrics.density
     }
+
+
 }

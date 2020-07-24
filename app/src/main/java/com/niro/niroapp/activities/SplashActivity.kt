@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.DisplayMetrics
 import android.view.View
 import android.widget.TextView
 import com.niro.niroapp.R
@@ -22,8 +23,14 @@ class SplashActivity : AppCompatActivity() {
         checkIfUserLoggedInAndLaunch()
     }
 
+    private fun getWidthOfScreen() : Float {
+        val displayMetrics = DisplayMetrics()
+    windowManager.defaultDisplay.getMetrics(displayMetrics)
+        return displayMetrics.widthPixels.toFloat()
+    }
+
     private fun animateAppThemeText(view: TextView) {
-        ObjectAnimator.ofFloat(view, "translationX", NiroAppUtils.getPxFromDP(this, -350f)).apply {
+        ObjectAnimator.ofFloat(view, "translationX",getWidthOfScreen()/2).apply {
             duration = 1500
             startDelay = 800
             start()

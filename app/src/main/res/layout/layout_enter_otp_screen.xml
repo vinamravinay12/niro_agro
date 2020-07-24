@@ -1,71 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/tvEnterOtpHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:text="@string/txt_enter_otp"
-        style="@style/header_login_screen_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tvEnterOtpHeader"
+            style="@style/header_login_screen_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/txt_enter_otp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <com.mukesh.OtpView
-        android:id="@+id/etOtp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_46sdp"
-        android:layout_marginStart="@dimen/_23sdp"
-        android:layout_marginEnd="@dimen/_23sdp"
-        android:itemBackground="@color/colorNumberBoxBackground"
-        app:itemCount="6"
-        android:alpha="0.3"
-        app:viewType="rectangle"
-        app:itemWidth="@dimen/_28sdp"
-        app:itemHeight="@dimen/_45sdp"
-        app:itemSpacing="@dimen/_8sdp"
-        app:cursorColor="@color/colorBlack"
-        android:cursorVisible="true"
-        android:textSize="@dimen/_18ssp"
-        tools:text="9431609157"
-        android:textColor="@color/colorBlack"
-        android:fontFamily="@font/roboto_bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvEnterOtpHeader" />
+        <com.mukesh.OtpView
+            android:id="@+id/etOtp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_23sdp"
+            android:layout_marginTop="@dimen/_46sdp"
+            android:layout_marginEnd="@dimen/_23sdp"
+            android:alpha="0.3"
+            android:cursorVisible="true"
+            android:fontFamily="@font/roboto_bold"
+            android:itemBackground="@color/colorNumberBoxBackground"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_18ssp"
+            app:cursorColor="@color/colorBlack"
+            app:itemCount="6"
+            app:itemHeight="@dimen/_45sdp"
+            app:itemSpacing="@dimen/_8sdp"
+            app:itemWidth="@dimen/_28sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvEnterOtpHeader"
+            app:viewType="rectangle"
+            tools:text="9431609157" />
 
-    <carbon.widget.Button
-        android:id="@+id/btnVerifyNumber"
-        android:layout_width="0dp"
-        android:layout_marginBottom="@dimen/_31sdp"
-        android:text="@string/txt_verify_number"
-        style="@style/loginButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <carbon.widget.Button
+            android:id="@+id/btnVerifyNumber"
+            style="@style/loginButton"
+            android:layout_width="0dp"
+            android:layout_marginBottom="@dimen/_31sdp"
+            android:text="@string/txt_verify_number"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/tvTermsConditions"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_27sdp"
-        android:layout_marginEnd="@dimen/_27sdp"
-        android:layout_marginBottom="@dimen/_9sdp"
-        android:text="@string/txt_resend_otp"
-        android:textSize="@dimen/_12ssp"
-        android:gravity="center"
-        android:textColor="@color/colorTextGreyA7"
-        android:fontFamily="@font/roboto"
-        app:layout_constraintBottom_toTopOf="@+id/btnVerifyNumber"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/tvTermsConditions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_27sdp"
+            android:layout_marginEnd="@dimen/_27sdp"
+            android:layout_marginBottom="@dimen/_9sdp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="@string/txt_resend_otp"
+            android:textColor="@color/colorTextGreyA7"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toTopOf="@+id/btnVerifyNumber"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

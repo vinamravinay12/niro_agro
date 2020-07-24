@@ -13,4 +13,20 @@
     <string name="txt_btn_next">Next</string>
     <string name="txt_header_enter_business">Name Of Your Business</string>
     <string name="txt_enter_business">Enter Business Name</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="txtUserTypeFarmer">Farmer</string>
+    <string name="txtUserTypeCommissionAgent">Commission Agent</string>
+    <string name="txtUserTypeLoader">Loader</string>
+    <string name="txt_btn_done">Done</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_header_title">Nav Title</string>
+    <string name="nav_header_subtitle">Nav subtitle</string>
+    <string name="txt_share">Share</string>
+    <string name="txt_home_welcome_message">Namaste, %s Ji</string>
+    <string name="txt_total_transactions">Rs. %s Transactions</string>
+    <string name="txt_total_orders">%d \nOrders</string>
+    <string name="txt_btn_live_mandi_rates">Live Mandi Rates</string>
+    <string name="txt_btn_join_facebook">Join our Facebook group</string>
+    <string name="txt_btn_contact_whatsapp">Contact Us on Whatsapp</string>
 </resources>

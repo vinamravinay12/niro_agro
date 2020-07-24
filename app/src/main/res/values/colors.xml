@@ -10,4 +10,10 @@
     <color name="colorBlack">#000000</color>
     <color name="colorSignupEditTextBackgroundWithAlpha">#1A000000</color>
     <color name="textSearchBox">#757575</color>
+    <color name="colorbackgroundGrey">#8D8D8D</color>
+    <color name="cardBackgoundNormal">#F5F5F5</color>
+    <color name="backgroundUserType">#B7B7B7</color>
+    <color name="colorTransparent">@android:color/transparent</color>
+    <color name="colorTextCommodityName">#616161</color>
+    <color name="backgroundHomeUserDetails">#E7FFE5</color>
 </resources>

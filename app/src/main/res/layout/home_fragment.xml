@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/_30sdp"
+        android:paddingEnd="@dimen/_30sdp">
+
+        <TextView
+            android:id="@+id/tvWelcomeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/txt_home_welcome_message"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTotalTransactions"
+            style="@style/userTransactionDetails"
+            android:layout_width="@dimen/_119sdp"
+            android:layout_height="@dimen/_116sdp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="@dimen/_17sdp"
+            android:elevation="@dimen/dp_1"
+            tools:text="Rs. 79,000 Transactions"
+            android:textAppearance="@style/totalOrdersText"
+            android:text="@string/txt_total_transactions"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvWelcomeTitle" />
+
+
+
+        <TextView
+            android:id="@+id/tvTotalOrders"
+            android:layout_width="@dimen/_119sdp"
+            android:layout_height="@dimen/_116sdp"
+            android:layout_marginTop="@dimen/_17sdp"
+            android:layout_marginEnd="3dp"
+            style="@style/userTransactionDetails"
+            android:elevation="@dimen/dp_1"
+            android:textAppearance="@style/totalOrdersText"
+            android:text="@string/txt_total_orders"
+            tools:text ="16 \nOrders"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvWelcomeTitle" />
+
+        <carbon.widget.Button
+            android:id="@+id/btnLiveMandiRates"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_64sdp"
+            android:text="@string/txt_btn_live_mandi_rates"
+            style="@style/buttonNextStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalTransactions" />
+
+        <carbon.widget.Button
+            android:id="@+id/btnJoinFacebook"
+            style="@style/buttonNextStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:text="@string/txt_btn_join_facebook"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.976"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnLiveMandiRates" />
+
+        <carbon.widget.Button
+            android:id="@+id/btnConnectWhatsapp"
+            style="@style/buttonNextStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:text="@string/txt_btn_contact_whatsapp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.535"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnJoinFacebook" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

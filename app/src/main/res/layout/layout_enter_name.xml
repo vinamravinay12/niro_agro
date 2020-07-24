@@ -1,49 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout>
 
-
-    <TextView
-        android:id="@+id/tvEnterNameHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:text="@string/txt_header_name"
-        style="@style/header_login_screen_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <carbon.widget.EditText
-        android:id="@+id/etEnterName"
-        style="@style/signupUserDetails"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_31sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:hint="@string/txt_enter_name_hint"
-        android:padding="@dimen/_8sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvEnterNameHeader" />
-
-    <carbon.widget.Button
-        android:id="@+id/btnNext"
-        style="@style/loginButton"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/_31sdp"
-        android:text="@string/txt_btn_next"
-        android:fontFamily="@font/roboto_bold"
-        android:textSize="@dimen/_16sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEnterName" />
+        android:layout_height="match_parent">
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvEnterNameHeader"
+            style="@style/header_login_screen_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/txt_header_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <carbon.widget.EditText
+            android:id="@+id/etEnterName"
+            style="@style/signupUserDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_31sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:hint="@string/txt_enter_name_hint"
+            android:padding="@dimen/_8sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvEnterNameHeader" />
+
+        <carbon.widget.Button
+            android:id="@+id/btnNext"
+            style="@style/loginButton"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/_31sdp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/txt_btn_next"
+            android:textSize="@dimen/_16sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etEnterName" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
