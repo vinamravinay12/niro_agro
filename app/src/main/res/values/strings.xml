@@ -29,4 +29,8 @@
     <string name="txt_btn_live_mandi_rates">Live Mandi Rates</string>
     <string name="txt_btn_join_facebook">Join our Facebook group</string>
     <string name="txt_btn_contact_whatsapp">Contact Us on Whatsapp</string>
+    <string name="otp_sent">OTP has been sent!!</string>
+    <string name="otp_sent_failed">Failed to send Otp. Try Again!!</string>
+    <string name="invalid_otp">Entered Otp is Invalid</string>
+    <string name="logging_in">Login In....</string>
 </resources>

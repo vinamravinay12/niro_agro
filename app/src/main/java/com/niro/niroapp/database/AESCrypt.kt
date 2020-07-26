@@ -1,7 +1,6 @@
-package com.translabtechnologies.visitormanagementsystem.vmshost.database
+package com.niro.niroapp.database
 
 import android.util.Base64
-import com.niro.niroapp.database.DatabaseKeys
 import java.security.NoSuchAlgorithmException
 import javax.crypto.Cipher
 import javax.crypto.NoSuchPaddingException

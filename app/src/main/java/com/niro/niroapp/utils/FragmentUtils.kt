@@ -1,7 +1,6 @@
-package com.waitty.kitchen.fragment
+package com.niro.niroapp.utils
 
 import android.content.Context
-import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.ViewDataBinding

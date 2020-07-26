@@ -13,7 +13,6 @@ private const val ARG_MOBILE_NUMBER = "ArgMobileNumber"
 
 class EnterNameFragment : Fragment() {
 
-        // TODO: Rename and change types of parameters
         private var mobileNumber: String? = null
 
 

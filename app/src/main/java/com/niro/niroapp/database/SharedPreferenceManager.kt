@@ -1,4 +1,4 @@
-package com.translabtechnologies.visitormanagementsystem.vmshost.database
+package com.niro.niroapp.database
 
 import android.content.Context
 import android.content.SharedPreferences

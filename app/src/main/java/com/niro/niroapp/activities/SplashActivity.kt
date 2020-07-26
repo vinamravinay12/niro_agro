@@ -8,16 +8,18 @@ import android.os.Handler
 import android.util.DisplayMetrics
 import android.view.View
 import android.widget.TextView
+import com.google.firebase.FirebaseApp
 import com.niro.niroapp.R
 import com.niro.niroapp.database.DatabaseKeys
-import com.niro.niroapp.utils.NiroAppUtils
-import com.translabtechnologies.visitormanagementsystem.vmshost.database.SharedPreferenceManager
+import com.niro.niroapp.database.SharedPreferenceManager
+import com.niro.niroapp.utils.FragmentUtils
 
 class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        FirebaseApp.initializeApp(this)
         animateAppNameText(findViewById<TextView>(R.id.tvAppNameText))
         animateAppThemeText(findViewById<TextView>(R.id.tvAppThemeText))
         checkIfUserLoggedInAndLaunch()
