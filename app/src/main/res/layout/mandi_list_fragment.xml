@@ -10,7 +10,7 @@
 
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/etSearchMandi"
             style="@style/searchBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,13 +26,14 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:id="@+id/rvMandiList"
             android:layout_marginStart="@dimen/_14sdp"
             android:layout_marginTop="@dimen/_12sdp"
             android:layout_marginEnd="@dimen/_14sdp"
             app:layout_constraintBottom_toTopOf="@+id/frameLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+            app:layout_constraintTop_toBottomOf="@+id/etSearchMandi" />
 
         <FrameLayout
             android:id="@+id/frameLayout"
@@ -45,6 +46,7 @@
 
             <carbon.widget.Button
                 style="@style/loginButton"
+                android:id="@+id/btnNext"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_35sdp"
                 android:layout_gravity="center"

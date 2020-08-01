@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="paymentVM"
+            type="com.niro.niroapp.viewmodels.CreatePaymentsViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".users.fragments.EnterUserFragment">
+
+        <TextView
+            android:id="@+id/tvPaymentsHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_17sdp"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:fontFamily="@font/roboto_bold"
+            android:hint="@string/text_payment_details"
+            android:text="@string/text_order_details"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <EditText
+            android:id="@+id/etTransactionAmount"
+            style="@style/editTextForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:hint="@string/hint_transaction_amount"
+            android:text="@{paymentVM.paymentAmount}"
+            android:inputType="numberDecimal"
+            android:textAppearance="@style/formEditTextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@+id/tvPaymentsHeader" />
+
+        <EditText
+            android:id="@+id/etPaymentDate"
+            style="@style/editTextForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:drawableEnd="@drawable/ic_date_range_24"
+            android:hint="@string/hint_payment_date"
+            android:inputType="date"
+            android:text="@{paymentVM.paymentDateDisplayValue}"
+            android:paddingEnd="@dimen/_12sdp"
+            android:textAppearance="@style/formEditTextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etTransactionAmount" />
+
+
+        <carbon.widget.Button
+            android:id="@+id/btnCreateOrder"
+            style="@style/buttonNextStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_42sdp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/txt_btn_done"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvPaymentMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_17sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="@string/txt_payment_mode"
+            android:textAppearance="@style/formEditTextAppearance"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etPaymentDate" />
+
+        <RadioGroup
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="23dp"
+            android:orientation="horizontal"
+            android:id="@+id/groupPaymentMode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvPaymentMode"
+            app:layout_constraintTop_toBottomOf="@+id/etPaymentDate">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <RadioButton
+                    android:id="@+id/rbCash"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/background_commodity_item"
+
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/btn_txt_cash" />
+
+                <ImageView
+                    android:id="@+id/ivCashSelected"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    android:visibility="invisible"
+                    app:srcCompat="@drawable/ic_check_circle_24" />
+
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_weight="1">
+
+                <RadioButton
+                    android:id="@+id/rbBank"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/background_commodity_item"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="@string/btn_text_bank" />
+
+                <ImageView
+                    android:id="@+id/ivBankSelected"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/ic_check_circle_24" />
+
+            </FrameLayout>
+        </RadioGroup>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -3,39 +3,57 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="mandLocation"
+            type="com.niro.niroapp.models.responsemodels.MandiLocation" />
+
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="checkChangeListener"
+            type="com.niro.niroapp.utils.CheckChangeListener" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-        <CheckBox
-            android:id="@+id/cbSelectItem"
+        <RadioGroup
             android:layout_width="@dimen/_16sdp"
             android:layout_height="@dimen/_16sdp"
+            android:id="@+id/rbSelectItemGroup"
             android:layout_marginStart="24dp"
-            android:background="@drawable/circle_checkbox"
-            android:button="@drawable/circle_checkbox"
-            android:checked="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+        <RadioButton
+            android:id="@+id/rbSelectItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:background="@drawable/circle_checkbox"
+            android:button="@drawable/circle_checkbox"
+            android:checked="false" />
+        </RadioGroup>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvMandiDetails"
-            isSelected="true"
             android:layout_width="0dp"
-            android:layout_height="75dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/background_commodity_item"
-            app:cardBackgroundColor="@color/cardBackgoundNormal"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_4sdp"
+            app:cardBackgroundColor="@{mandLocation.isSelected ? @color/card_item_selected : @color/cardBackgoundNormal}"
             app:cardCornerRadius="@dimen/_3sdp"
             app:cardElevation="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/cbSelectItem"
+            app:layout_constraintStart_toEndOf="@+id/rbSelectItemGroup"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,26 +75,26 @@
                     app:srcCompat="@drawable/ic_check_circle_24" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/tvMarketName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:text="Bulandshahar"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:text="@{mandLocation.market}"
                     style="@style/cardItemText"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/tvDistrictAndState"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Gautam Buddha Nagar, Uttar Pradesh"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_6sdp"
+                    android:text='@{mandLocation.district + ", " + mandLocation.state }'
                     style="@style/cardItemText"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/_9ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />

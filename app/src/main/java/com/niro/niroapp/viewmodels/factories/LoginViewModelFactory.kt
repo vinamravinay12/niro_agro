@@ -9,7 +9,6 @@ import java.lang.IllegalArgumentException
 class LoginViewModelFactory : AbstractViewModelFactory<LoginViewModel>() {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(LoginViewModel::class.java)) return LoginViewModel() as T
-        throw IllegalArgumentException("Unknown ViewModel Class")
+        return LoginViewModel() as T
     }
 }

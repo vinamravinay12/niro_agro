@@ -12,7 +12,7 @@ import com.google.firebase.FirebaseApp
 import com.niro.niroapp.R
 import com.niro.niroapp.database.DatabaseKeys
 import com.niro.niroapp.database.SharedPreferenceManager
-import com.niro.niroapp.utils.FragmentUtils
+import com.niro.niroapp.firebase.FirebaseTokenGenerator
 
 class SplashActivity : AppCompatActivity() {
 
@@ -22,7 +22,13 @@ class SplashActivity : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
         animateAppNameText(findViewById<TextView>(R.id.tvAppNameText))
         animateAppThemeText(findViewById<TextView>(R.id.tvAppThemeText))
+
+        refreshIdToken()
         checkIfUserLoggedInAndLaunch()
+    }
+
+    private fun refreshIdToken() {
+        FirebaseTokenGenerator(null).generateIdToken(this)
     }
 
     private fun getWidthOfScreen() : Float {
@@ -54,9 +60,14 @@ class SplashActivity : AppCompatActivity() {
                     DatabaseKeys.KEY_LOGGED_IN,
                     false
                 )
-            if (!isLoggedIn) launchLoginScreen()
+            if (!isLoggedIn) launchLoginScreen() else launchHomeScreen()
         }, 3000)
 
+    }
+
+    private fun launchHomeScreen() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
     private fun launchLoginScreen() {

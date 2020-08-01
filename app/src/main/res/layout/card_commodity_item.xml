@@ -3,6 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="commodity"
+            type="com.niro.niroapp.models.responsemodels.CommodityItem" />
+
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="checkChangeListener"
+            type="com.niro.niroapp.utils.CheckChangeListener" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -15,7 +30,6 @@
             android:layout_marginStart="24dp"
             android:background="@drawable/circle_checkbox"
             android:button="@drawable/circle_checkbox"
-            android:checked="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,15 +42,13 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="4dp"
-            android:background="@drawable/background_commodity_item"
-            app:cardBackgroundColor="@color/cardBackgoundNormal"
+            app:cardBackgroundColor="@{commodity.isSelected ? @color/card_item_selected :  @color/cardBackgoundNormal}"
             app:cardCornerRadius="@dimen/_3sdp"
             app:cardElevation="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cbSelectItem"
-            app:layout_constraintTop_toTopOf="parent"
-            isSelected="true">
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -52,6 +64,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:background="@color/colorWhite"
+                    loadImage="@{commodity.image}"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/rice" />
 
@@ -62,6 +75,7 @@
                     android:layout_marginStart="@dimen/_12sdp"
                     android:layout_weight="0.5"
                     style="@style/cardItemText"
+                    android:text="@{commodity.name}"
                     android:gravity="center_vertical"
                     tools:text="Green Capsicum" />
 

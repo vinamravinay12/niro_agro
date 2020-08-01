@@ -38,7 +38,7 @@ class LoginFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         bindingFragmentLogin = DataBindingUtil.inflate(inflater,R.layout.layout_login_screen, container, false)
-        loginViewModel = activity?.let { LoginViewModelFactory().getViewModel(this) }
+        loginViewModel = activity?.let { LoginViewModelFactory().getViewModel(null,it) }
         bindingFragmentLogin.lifecycleOwner = viewLifecycleOwner
 
         return bindingFragmentLogin.root
@@ -89,6 +89,7 @@ class LoginFragment : Fragment() {
             loginViewModel?.getStoredVerifciationId()?.value = verificationId
             loginViewModel?.getResendToken()?.value = token
             NiroAppUtils.showSnackbar(getString(R.string.otp_sent),bindingFragmentLogin.root)
+            FragmentUtils.launchFragment(activity?.supportFragmentManager,R.id.fl_login,OTPFragment(),NIroAppConstants.TAG_OTP)
         }
 
     }

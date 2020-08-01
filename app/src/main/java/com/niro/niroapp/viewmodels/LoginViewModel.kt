@@ -1,5 +1,6 @@
 package com.niro.niroapp.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.FirebaseException
@@ -26,10 +27,10 @@ class LoginViewModel : ViewModel() {
     fun getResendToken() = resendToken
 
 
-    fun loginUser() : MutableLiveData<APIResponse>? {
+    fun loginUser(context : Context?) : MutableLiveData<APIResponse>? {
 
-        val loginRepository = mobileNumber.value?.let { LoginRepository<LoginResponse>(it) }
-        return loginRepository?.getResponse(ApiClient.getAPIInterface())
+        val loginRepository = mobileNumber.value?.let { LoginRepository<LoginResponse>(it,context) }
+        return loginRepository?.getResponse()
 
     }
 

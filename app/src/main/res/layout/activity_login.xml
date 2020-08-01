@@ -8,36 +8,49 @@
         android:layout_height="match_parent"
         tools:context=".activities.LoginActivity">
 
-        <carbon.widget.FrameLayout
+        <FrameLayout
+            android:id="@+id/fl_login_parent"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_250sdp"
-            android:background="@color/colorPrimary"
-            app:carbon_cornerCutBottomEnd="@dimen/_50sdp"
-            app:carbon_cornerCutBottomStart="@dimen/_50sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/_27sdp"
-            android:layout_marginTop="@dimen/_85sdp"
-            android:layout_marginEnd="@dimen/_27sdp"
-            android:layout_marginBottom="@dimen/_120sdp"
-            app:cardCornerRadius="@dimen/_18sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            <FrameLayout
+                android:id="@+id/fl_login_child"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-       <FrameLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:id="@+id/fl_login"/>
+                <carbon.widget.FrameLayout
+                    android:id="@+id/fl_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_250sdp"
+                    android:background="@color/colorPrimary"
+                    app:carbon_cornerCutBottomEnd="@dimen/_50sdp"
+                    app:carbon_cornerCutBottomStart="@dimen/_50sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
 
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_27sdp"
+                    android:layout_marginTop="@dimen/_85sdp"
+                    android:layout_marginEnd="@dimen/_27sdp"
+                    android:layout_marginBottom="@dimen/_120sdp"
+                    app:cardCornerRadius="@dimen/_18sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
+                    <FrameLayout
+                        android:id="@+id/fl_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </androidx.cardview.widget.CardView>
+
+            </FrameLayout>
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

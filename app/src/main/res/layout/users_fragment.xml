@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".users.fragments.UsersFragment">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/buyersTabLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_19sdp"
+            android:layout_marginTop="@dimen/_17sdp"
+            android:fillViewport="false"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabBackground="@drawable/background_tab_item_selected"
+            app:tabGravity="fill"
+            app:tabIndicator="@drawable/background_tab_item_selected"
+            app:tabIndicatorColor="#FFFFFF"
+            app:tabMinWidth="@dimen/_17sdp"
+            app:tabPadding="@dimen/dp_10"
+            app:tabSelectedTextColor="@color/colorWhite"
+            app:tabTextAppearance="@style/tabBuyersTextAppearance"
+            app:tabTextColor="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/tvTotalUsers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_17sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:text="@string/txt_total_users"
+            android:textAppearance="@style/textHeaders"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buyersTabLayout" />
+
+        <EditText
+            android:id="@+id/etSearchUsers"
+            style="@style/searchBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_17sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_17sdp"
+            android:hint="@string/hint_search"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalUsers" />
+
+        <TextView
+            android:id="@+id/tvFilters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_17sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:drawableStart="@drawable/ic_filter"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/txt_filters"
+            android:textColor="@color/textSearchBox"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etSearchUsers" />
+
+        <RadioGroup
+            android:id="@+id/rbFiltersGroup"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_19sdp"
+            android:layout_marginStart="@dimen/_19sdp"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:layout_marginEnd="@dimen/_19sdp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvFilters"
+            app:layout_constraintTop_toBottomOf="@+id/etSearchUsers">
+
+            <RadioButton
+                android:id="@+id/rbLocation"
+                style="@style/rbFilters"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/filter_location"
+                android:textAppearance="@style/rbFiltersTextAppearance"
+                android:textColor="@color/colorWhite" />
+
+            <RadioButton
+                android:id="@+id/rbCommodity"
+                style="@style/rbFilters"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_weight="1"
+                android:text="@string/filter_commodity"
+                android:textAppearance="@style/rbFiltersTextAppearance"
+                android:textColor="@color/colorWhite" />
+
+            <RadioButton
+                android:id="@+id/rbRatings"
+                style="@style/rbFilters"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/filter_ratings"
+                android:textAppearance="@style/rbFiltersTextAppearance"
+                android:textColor="@color/colorWhite" />
+        </RadioGroup>
+
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refreshUsers"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="@dimen/_4sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvFilters">
+            <FrameLayout android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/rvUsersList"
+                    android:visibility="gone"/>
+
+                <include layout="@layout/no_item_layout"
+                    android:id="@+id/noUsersLayout" />
+
+            </FrameLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <carbon.widget.Button
+            android:id="@+id/btnAddUser"
+            style="@style/buttonAddStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_22sdp"
+            android:drawableEnd="@drawable/ic_add_24"
+            android:drawablePadding="@dimen/dp_22"
+            android:paddingStart="@dimen/dp_12"
+            android:paddingTop="@dimen/dp_14"
+            android:paddingEnd="@dimen/dp_12"
+            android:paddingBottom="@dimen/dp_14"
+            android:text="@string/add_loader"
+            app:layout_constraintBottom_toBottomOf="@+id/refreshUsers"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

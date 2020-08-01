@@ -2,7 +2,14 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_selected="true">
         <shape android:shape="rectangle">
-            <solid android:color="#2f388E3C" />
+            <solid android:color="@color/card_item_selected" />
+
+        </shape>
+    </item>
+
+    <item android:state_checked="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/card_item_selected" />
 
         </shape>
     </item>

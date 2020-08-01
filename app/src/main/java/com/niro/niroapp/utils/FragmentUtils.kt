@@ -27,7 +27,7 @@ object FragmentUtils {
 
 
 
-    private fun replaceFragment(fragmentManager: FragmentManager, view : Int, fragment: Fragment?, tag: String?): FragmentTransaction? {
+     fun replaceFragment(fragmentManager: FragmentManager, view : Int, fragment: Fragment?, tag: String?): FragmentTransaction? {
         return fragment?.let { fragmentManager.beginTransaction().replace(view, it, tag).addToBackStack(null) }
     }
 

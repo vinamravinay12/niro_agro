@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="loanRequestVM"
+            type="com.niro.niroapp.loans.viewmodels.LoanRequirementViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".users.fragments.EnterUserFragment">
+
+        <TextView
+            android:id="@+id/tvLoansHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_17sdp"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/text_loan_details"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_14ssp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <EditText
+            android:id="@+id/etRequiredCapital"
+            style="@style/editTextForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:hint="@string/hint_required_capital"
+            android:inputType="numberDecimal"
+            android:text="@={loanRequestVM.capitalRequired}"
+            android:textAppearance="@style/formEditTextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@+id/tvLoansHeader" />
+
+        <EditText
+            android:id="@+id/etTImeRequired"
+            style="@style/editTextForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:drawableEnd="@drawable/ic_date_range_24"
+            android:hint="@string/hint_time_required"
+            android:inputType="number"
+            android:text="@={loanRequestVM.timeInMonths}"
+            android:paddingEnd="@dimen/_12sdp"
+            android:textAppearance="@style/formEditTextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etRequiredCapital" />
+
+
+        <carbon.widget.Button
+            android:id="@+id/btnSubmitDetails"
+            style="@style/buttonNextStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_42sdp"
+            android:layout_marginStart="@dimen/_17sdp"
+            android:layout_marginTop="@dimen/_23sdp"
+            android:layout_marginEnd="@dimen/_17sdp"
+            android:text="@string/txt_btn_submit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etTImeRequired" />
+
+        <TextView
+            android:id="@+id/tvContactSoon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_24sdp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/txt_contact_soon"
+            android:textColor="@color/textSearchBox"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnSubmitDetails" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

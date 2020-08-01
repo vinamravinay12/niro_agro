@@ -6,6 +6,7 @@
     <color name="colorNumberBoxBackground">#B7B7B7</color>
     <color name="colorTextGreyA7">#A7A7A7</color>
     <color name="backgroundSearchBox">#EEEEEE</color>
+
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
     <color name="colorSignupEditTextBackgroundWithAlpha">#1A000000</color>
@@ -16,4 +17,9 @@
     <color name="colorTransparent">@android:color/transparent</color>
     <color name="colorTextCommodityName">#616161</color>
     <color name="backgroundHomeUserDetails">#E7FFE5</color>
+    <color name="card_item_selected">#3f388E3C</color>
+    <color name="color_stroke_grey">#ACACAC</color>
+    <color name="colorBackgroundVeryLightGrey">#E6E6E6</color>
+    <color name="backgroundCardContact">#F5F5F5</color>
+    <color name="background_color_primary_with_alpha">#2f388E3C</color>
 </resources>

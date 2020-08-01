@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+        <variable
+            name="SignUpVM"
+            type="com.niro.niroapp.viewmodels.SignupViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -29,6 +35,7 @@
             android:layout_marginEnd="@dimen/_16sdp"
             android:hint="@string/txt_enter_business"
             android:padding="@dimen/_8sdp"
+            android:text="@={SignUpVM.businessName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvEnterBusinessHeader" />

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="addContactVM"
+            type="com.niro.niroapp.users.viewmodels.EnterUserViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".users.fragments.EnterUserFragment">
+
+        <TextView
+            android:id="@+id/tvContactHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_17sdp"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:fontFamily="@font/roboto_bold"
+            android:hint="@string/text_contact_details"
+            android:text="@string/text_contact_details"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/etEnterName"
+            style="@style/editTextForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:hint="@string/hint_name"
+            android:text="@={addContactVM.contactName}"
+            android:textAppearance="@style/formEditTextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvContactHeader" />
+
+        <EditText
+            android:id="@+id/etEnterNumber"
+            style="@style/editTextForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:hint="@string/hint_number"
+            android:inputType="phone"
+            android:text="@={addContactVM.phoneNumber}"
+            android:textAppearance="@style/formEditTextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etEnterName" />
+
+        <EditText
+            android:id="@+id/etEnterLocation"
+            style="@style/editTextForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:hint="@string/hint_location"
+            android:text="@{addContactVM.mandiDisplayName}"
+            android:textAppearance="@style/formEditTextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etEnterNumber" />
+
+        <EditText
+            android:id="@+id/etEnterCommodity"
+            style="@style/editTextForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:hint="@string/hint_commodity"
+            android:inputType="none"
+            android:text="@{addContactVM.selectedCommodityDisplayName}"
+            android:textAppearance="@style/formEditTextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etEnterLocation" />
+
+
+        <EditText
+            android:id="@+id/etEnterBusiness"
+            style="@style/editTextForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:hint="@string/hint_business_name"
+            android:text="@={addContactVM.businessName}"
+            android:textAppearance="@style/formEditTextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etEnterCommodity" />
+
+        <carbon.widget.Button
+            android:id="@+id/btnAddContact"
+            style="@style/buttonNextStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_42sdp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/add_contact"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

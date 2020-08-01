@@ -1,97 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingStart="@dimen/_37sdp"
-    android:paddingEnd="@dimen/_37sdp"
-    android:paddingTop="@dimen/_101sdp"
-    tools:context=".fragments.UserTypeFragment">
+<layout>
 
-  <FrameLayout
-    android:id="@+id/flUserFarmer"
-      android:layout_width="@dimen/_102sdp"
-      android:layout_height="@dimen/_102sdp"
-      style="@style/UserTypeStyle"
-      android:drawableTop="@drawable/ic_check_circle_24">
-    <TextView
-        android:id="@+id/tvUserTypeFarmer"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        style="@style/UserTypeTextStyle"
-        android:text="@string/txtUserTypeFarmer" />
-    <ImageView
-        android:layout_width="@dimen/_17sdp"
-        android:layout_height="@dimen/_17sdp"
-        android:layout_marginTop="@dimen/_14sdp"
-        android:layout_marginEnd="@dimen/_11sdp"
-        android:layout_gravity="top|end"
-        android:visibility="invisible"
-      app:srcCompat="@drawable/ic_check_circle_24" />
+        android:paddingStart="@dimen/_37sdp"
+        android:paddingTop="@dimen/_101sdp"
+        android:paddingEnd="@dimen/_37sdp"
+        tools:context=".fragments.UserTypeFragment">
 
-  </FrameLayout>
-    <FrameLayout
-        android:id="@+id/flUserCommissionAgent"
-        android:layout_width="@dimen/_102sdp"
-        android:layout_height="@dimen/_102sdp"
-        style="@style/UserTypeStyle"
-        android:layout_toRightOf= "@+id/flUserFarmer"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:drawableTop="@drawable/ic_check_circle_24">
-      <TextView
-          android:id="@+id/tvUserTypeCommissionAgent"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          style="@style/UserTypeTextStyle"
-         android:text="@string/txtUserTypeCommissionAgent" />
-      <ImageView
-          android:layout_width="@dimen/_17sdp"
-          android:layout_height="@dimen/_17sdp"
-          android:layout_marginTop="@dimen/_14sdp"
-          android:layout_marginEnd="@dimen/_11sdp"
-          android:layout_gravity="top|end"
-          android:visibility="invisible"
-          app:srcCompat="@drawable/ic_check_circle_24" />
+        <FrameLayout
+            android:id="@+id/flUserFarmer"
+            style="@style/UserTypeStyle"
+            android:layout_width="@dimen/_102sdp"
+            android:layout_height="@dimen/_102sdp"
+            android:drawableTop="@drawable/ic_check_circle_24">
 
-    </FrameLayout>
+            <TextView
+                android:id="@+id/tvUserTypeFarmer"
+                style="@style/UserTypeTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/txtUserTypeFarmer" />
 
-  <FrameLayout
-      android:id="@+id/flUserLoader"
-      android:layout_width="@dimen/_102sdp"
-      android:layout_height="@dimen/_102sdp"
-      style="@style/UserTypeStyle"
-      android:layout_below="@+id/flUserFarmer"
-      android:layout_marginTop="@dimen/_20sdp"
-      android:drawableTop="@drawable/ic_check_circle_24">
-    <TextView
-        android:id="@+id/tvUserTypeLoder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        style="@style/UserTypeTextStyle"
-        android:text="@string/txtUserTypeLoader" />
-    <ImageView
-        android:layout_width="@dimen/_17sdp"
-        android:layout_height="@dimen/_17sdp"
-        android:layout_marginTop="@dimen/_14sdp"
-        android:layout_marginEnd="@dimen/_11sdp"
-        android:layout_gravity="top|end"
-        android:visibility="invisible"
-        app:srcCompat="@drawable/ic_check_circle_24" />
+            <ImageView
+                android:id="@+id/ivFarmerSelected"
+                android:layout_width="@dimen/_17sdp"
+                android:layout_height="@dimen/_17sdp"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:layout_marginEnd="@dimen/_11sdp"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_check_circle_24" />
 
-  </FrameLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/flUserCommissionAgent"
+            style="@style/UserTypeStyle"
+            android:layout_width="@dimen/_102sdp"
+            android:layout_height="@dimen/_102sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_toRightOf="@+id/flUserFarmer"
+            android:drawableTop="@drawable/ic_check_circle_24">
+
+            <TextView
+                android:id="@+id/tvUserTypeCommissionAgent"
+                style="@style/UserTypeTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/txtUserTypeCommissionAgent" />
+
+            <ImageView
+                android:id="@+id/ivAgentSelected"
+                android:layout_width="@dimen/_17sdp"
+                android:layout_height="@dimen/_17sdp"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:layout_marginEnd="@dimen/_11sdp"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_check_circle_24" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/flUserLoader"
+            style="@style/UserTypeStyle"
+            android:layout_width="@dimen/_102sdp"
+            android:layout_height="@dimen/_102sdp"
+            android:layout_below="@+id/flUserFarmer"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:drawableTop="@drawable/ic_check_circle_24">
+
+            <TextView
+                android:id="@+id/tvUserTypeLoder"
+                style="@style/UserTypeTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/txtUserTypeLoader" />
+
+            <ImageView
+                android:id="@+id/ivLoaderSelected"
+                android:layout_width="@dimen/_17sdp"
+                android:layout_height="@dimen/_17sdp"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:layout_marginEnd="@dimen/_11sdp"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_check_circle_24" />
+
+        </FrameLayout>
 
 
+        <carbon.widget.Button
+            android:id="@+id/btnSignup"
+            style="@style/buttonNextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_39sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/_14sdp"
+            android:text="@string/txt_btn_done"
+            android:textScaleX="1.2"
+            app:carbon_elevation="0dp" />
 
-    <carbon.widget.Button
-        style="@style/buttonNextStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_39sdp"
-        android:layout_gravity="center"
-        android:textScaleX="1.2"
-        android:layout_marginBottom="@dimen/_14sdp"
-        android:text="@string/txt_btn_done"
-        android:layout_alignParentBottom="true"
-        app:carbon_elevation="0dp" />
-
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

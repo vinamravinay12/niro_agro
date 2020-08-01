@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="createOrderVM"
+            type="com.niro.niroapp.viewmodels.CreateOrderViewModel" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".users.fragments.EnterUserFragment">
+
+    <TextView
+        android:id="@+id/tvOrderHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_17sdp"
+        android:layout_marginTop="@dimen/_14sdp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="@string/text_order_details"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_14ssp"
+        android:hint="@string/text_contact_details"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etEnterCommodity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_18sdp"
+        style="@style/editTextForm"
+        android:hint="@string/hint_commodity"
+        android:text="@{createOrderVM.selectedCommodityDisplayName}"
+        android:textAppearance="@style/formEditTextAppearance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOrderHeader" />
+
+    <EditText
+        android:id="@+id/etTotalAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_14sdp"
+        style="@style/editTextForm"
+        android:text="@{createOrderVM.orderAmount}"
+        android:hint="@string/hint_total_amount"
+        android:textAppearance="@style/formEditTextAppearance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etEnterCommodity" />
+
+    <EditText
+        android:id="@+id/etReceivingDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
+        style="@style/editTextForm"
+        android:text="@{createOrderVM.receivingDateDisplayValue}"
+        android:hint="@string/hint_receiving_date"
+        android:textAppearance="@style/formEditTextAppearance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:drawableEnd="@drawable/ic_date_range_24"
+        android:paddingEnd="@dimen/_12sdp"
+        app:layout_constraintTop_toBottomOf="@+id/etTotalAmount" />
+
+    <EditText
+        android:id="@+id/etAddImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_14sdp"
+        style="@style/editTextForm"
+        android:hint="@string/hint_add_image"
+        android:drawableEnd="@drawable/ic_add_photo_24"
+        android:paddingEnd="@dimen/_12sdp"
+        android:textAppearance="@style/formEditTextAppearance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etReceivingDate" />
+
+    <ImageView
+        android:id="@+id/ivOrderImage"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="19dp"
+        android:src="@drawable/rice"
+        android:background="@drawable/order_image"
+        android:scaleType="fitXY"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etAddImage" />
+
+
+    <carbon.widget.Button
+        android:id="@+id/btnCreateOrder"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_42sdp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="12dp"
+        android:text="@string/txt_btn_done"
+        style="@style/buttonNextStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
