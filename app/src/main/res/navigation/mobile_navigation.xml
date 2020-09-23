@@ -11,6 +11,19 @@
         android:label="@string/app_name"
         tools:layout="@layout/home_fragment" />
 
+
+    <fragment
+        android:id="@+id/navigation_create_sell_commodity"
+        android:name="com.niro.niroapp.fragments.CreateNewSellOrderFragment"
+        android:label="@string/text_sell_commodities"
+        tools:layout="@layout/fragment_add_new_sell_order" />
+
+    <fragment
+        android:id="@+id/navigation_buy_commodities"
+        android:name="com.niro.niroapp.fragments.BuyCommoditiesFragment"
+        android:label="@string/title_buy_commodities"
+        tools:layout="@layout/buyers_list_fragment" />
+
     <fragment
         android:id="@+id/navigation_orders"
         android:name="com.niro.niroapp.fragments.OrdersFragment"
@@ -19,7 +32,16 @@
         <action
             android:id="@+id/action_navigation_orders_to_navigation_contacts_list"
             app:destination="@id/navigation_contacts_list" />
+        <action
+            android:id="@+id/action_navigation_orders_to_navigation_order_details"
+            app:destination="@id/navigation_order_details" />
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_order_details"
+        android:name="com.niro.niroapp.fragments.OrderDetailsFragment"
+        android:label="@string/title_order_details"
+        tools:layout="@layout/order_details_fragment" />
 
 
     <fragment
@@ -27,6 +49,11 @@
         android:name="com.niro.niroapp.users.fragments.UsersListFragment"
         android:label="@string/title_users"
         tools:layout="@layout/fragment_users_list" >
+        <action
+            android:id="@+id/dialog_select_users_action"
+            app:destination="@id/dialog_select_users"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_close_exit" />
         <action
             android:id="@+id/action_navigation_contacts_list_to_navigation_create_order"
             app:destination="@id/navigation_create_order"
@@ -61,7 +88,7 @@
         tools:layout="@layout/create_payments_fragment" />
 
     <dialog android:id="@+id/dialog_select_users"
-        android:name="com.niro.niroapp.users.fragments.AddUserDialogFragment" android:label=""
+        android:name="com.niro.niroapp.users.fragments.CreateNewUserOptionDialog" android:label=""
         tools:layout="@layout/dialog_select_contacts_or_manual_enter">
 
         <action
@@ -86,8 +113,25 @@
             app:destination="@id/dialog_select_users"
             app:enterAnim="@anim/fragment_close_enter"
             app:exitAnim="@anim/fragment_close_exit" />
+        <action
+            android:id="@+id/action_navigation_loaders_to_navigation_user_contact_details"
+            app:destination="@id/navigation_user_contact_details" />
 
     </fragment>
+
+
+    <fragment
+        android:id="@+id/navigation_user_contact_details"
+        android:name="com.niro.niroapp.fragments.UserDetailFragment"
+        android:label="@string/title_user_details"
+        tools:layout="@layout/user_detail_fragment" >
+
+
+        <action
+            android:id="@+id/action_navigation_user_contact_details_to_dialog_select_users"
+            app:destination="@id/navigation_contacts_list" />
+    </fragment>
+
 
 
     <fragment
@@ -102,7 +146,7 @@
 
     <fragment
         android:id="@+id/navigation_create_users_manually"
-        android:name="com.niro.niroapp.users.fragments.EnterUserFragment"
+        android:name="com.niro.niroapp.users.fragments.CreateManualContactFragment"
         android:label="@string/title_enter_details"
         tools:layout="@layout/enter_user_fragment" >
 
@@ -158,6 +202,18 @@
         android:name="com.niro.niroapp.fragments.EditProfileFragment"
         android:label="@string/menu_edit_profile"
         tools:layout="@layout/edit_profile_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_daily_mandi_rates"
+        android:name="com.niro.niroapp.fragments.DailyMandiRateListFragment"
+        android:label="@string/menu_daily_rates"
+        tools:layout="@layout/live_mandi_list_fragment" >
+        <action
+            android:id="@+id/action_navigation_daily_mandi_rates_to_navigation_mandi_location"
+            app:destination="@id/navigation_mandi_location" />
+    </fragment>
+
+
 
 
 

@@ -3,7 +3,7 @@
     <stroke android:dashWidth="@dimen/dp_2"
         android:dashGap="@dimen/dp_1"
         android:width="@dimen/dp_1"
-        android:color="#ACACAC" />
+        android:color="@color/colorPrimary" />
 
 
 </shape>

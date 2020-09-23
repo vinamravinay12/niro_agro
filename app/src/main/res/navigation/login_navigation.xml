@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_navigation"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/OTPFragment"
+        android:name="com.niro.niroapp.fragments.OTPFragment"
+        android:label="fragment_otp"
+        tools:layout="@layout/layout_enter_otp_screen" >
+        <action
+            android:id="@+id/action_OTPFragment_to_enterNameFragment"
+            app:destination="@id/enterNameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.niro.niroapp.fragments.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/layout_login_screen" >
+        <action
+            android:id="@+id/action_loginFragment_to_OTPFragment"
+            app:destination="@id/OTPFragment"
+            tools:layout="@layout/layout_enter_otp_screen"/>
+    </fragment>
+    <fragment
+        android:id="@+id/enterNameFragment"
+        android:name="com.niro.niroapp.fragments.EnterNameFragment"
+        android:label="EnterNameFragment"
+        tools:layout="@layout/layout_enter_name">
+        <action
+            android:id="@+id/action_enterNameFragment_to_enterBusinessFragment"
+            app:destination="@id/enterBusinessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/enterBusinessFragment"
+        android:name="com.niro.niroapp.fragments.EnterBusinessFragment"
+        android:label="EnterBusinessFragment"
+        tools:layout="@layout/layout_enter_business">
+        <action
+            android:id="@+id/action_enterBusinessFragment_to_commoditiesFragment"
+            app:destination="@id/commoditiesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/commoditiesFragment"
+        android:name="com.niro.niroapp.fragments.CommoditiesFragment"
+        android:label="CommoditiesFragment"
+        tools:layout="@layout/commodities_fragment">
+        <action
+            android:id="@+id/action_commoditiesFragment_to_mandiListFragment"
+            app:destination="@id/mandiListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mandiListFragment"
+        android:name="com.niro.niroapp.fragments.MandiListFragment"
+        android:label="MandiListFragment"
+        tools:layout="@layout/mandi_list_fragment">
+        <action
+            android:id="@+id/action_mandiListFragment_to_userTypeFragment"
+            app:destination="@id/userTypeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userTypeFragment"
+        android:name="com.niro.niroapp.fragments.UserTypeFragment"
+        android:label="UserTypeFragment"
+        tools:layout="@layout/fragment_user_type"/>
+</navigation>

@@ -21,36 +21,48 @@
                 android:background="@color/colorPrimary"
                 app:layout_anchor="@+id/appBarLayout2"
                 app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-                app:layout_anchorGravity="center">
+                app:layout_anchorGravity="center"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
+                app:contentInsetStartWithNavigation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.65"
                         android:textSize="@dimen/_14ssp"
                         android:fontFamily="@font/roboto_medium"
                         android:textColor="@color/colorWhite"
                         tools:text="Select Category"
+                        android:layout_marginStart="-10dp"
                         android:layout_gravity="center_vertical"
                         android:id="@+id/tvHeaderName"
                         android:paddingStart="@dimen/_12sdp"/>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_16sdp"
+                        android:layout_height="@dimen/_16sdp"
+                        android:tint="@color/colorWhite"
+                        android:id="@+id/ivMenuImage"
+                        android:visibility="invisible"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_gravity="center_vertical" />
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.35"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:textSize="@dimen/_14ssp"
                         android:fontFamily="@font/roboto_medium"
                         android:textColor="@color/colorWhite"
                         android:text="@string/txt_share"
+                        android:layout_marginStart="@dimen/_6sdp"
                         android:paddingEnd="@dimen/_15sdp"
-                        android:gravity="end"
+                        android:gravity="end|center_vertical"
                         android:visibility="invisible"
+
                         android:drawablePadding="@dimen/_8sdp"
                         android:drawableEnd="@drawable/ic_share_24"
-                        android:layout_gravity="center_vertical"
+                        android:layout_gravity="center_vertical|end"
                         android:id="@+id/tvShare" />
 
                 </LinearLayout>

@@ -8,6 +8,7 @@ import com.niro.niroapp.models.APIResponse
 import com.niro.niroapp.models.responsemodels.User
 import com.niro.niroapp.models.responsemodels.UserContact
 import com.niro.niroapp.users.adapters.UsersAdapter
+import com.niro.niroapp.users.fragments.ContactType
 import com.niro.niroapp.users.viewmodels.repositories.GetAllBuyersContactRepository
 import com.niro.niroapp.users.viewmodels.repositories.GetContactsRepository
 import com.niro.niroapp.users.viewmodels.repositories.GetCurrentUserContactsRepository
@@ -18,16 +19,18 @@ import com.niro.niroapp.viewmodels.ListViewModel
 class UsersViewModel(currentUser : User?) : ListViewModel(),FilterResultsListener<UserContact> {
 
     private var contactsList = MutableLiveData<MutableList<UserContact>>()
-    private var currentUser =  MutableLiveData<User>(currentUser)
+    private var currentUserData =  MutableLiveData<User>()
     private var adapter : UsersAdapter
+    private var selectedContactType = MutableLiveData<String>(ContactType.MY_LOADERS.type)
 
     init {
+        currentUserData.value = currentUser
         adapter = UsersAdapter(getViewType(),contactsList.value,this)
     }
 
     fun getContactsList() = contactsList
 
-
+    fun getSelectedContactType() = selectedContactType
 
     fun getAdapter() = adapter
 
@@ -46,24 +49,29 @@ class UsersViewModel(currentUser : User?) : ListViewModel(),FilterResultsListene
 
     fun filterByLocation() {
 
-        contactsList.value?.sortedBy { userContact -> userContact.userLocation?.market }
+        val sortedByLocation = contactsList.value?.sortedBy { userContact -> userContact.userLocation?.market }
+        contactsList.value = sortedByLocation?.toMutableList()
+        updateList()
     }
 
     fun filterByRatings() {
-        contactsList.value?.sortedBy { userContact -> userContact?.avgRatings}
+        contactsList.value = contactsList.value?.sortedByDescending { userContact -> userContact.avgRatings}?.toMutableList()
+        updateList()
     }
 
     fun filterByCommodity() {
 
-        contactsList.value?.sortedBy { userContact ->
+       contactsList.value =  contactsList.value?.sortedBy { userContact ->
 
             if(!userContact.selectedCommodity.isNullOrEmpty()) userContact.selectedCommodity[0].name
             else userContact.contactName
-        }
+        }?.toMutableList()
+
+        updateList()
     }
 
     fun getUsersList(context : Context?) : MutableLiveData<APIResponse>? {
-        return currentUser.value?.id?.let { GetCurrentUserContactsRepository(it,context).getResponse() }
+        return currentUserData.value?.id?.let { GetCurrentUserContactsRepository(it,context).getResponse() }
     }
 
 

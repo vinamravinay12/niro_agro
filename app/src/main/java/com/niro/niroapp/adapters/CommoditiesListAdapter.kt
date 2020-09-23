@@ -23,4 +23,18 @@ class CommoditiesListAdapter(private val layoutRes : Int,
         return CommodityItemViewHolder(bindingCommodityItem,getVariablesMap())
     }
 
+
+    fun updateSelectedItems(newList :MutableList<CommodityItem>) {
+        for (item in newList) {
+            val index: Int =
+                dataList?.indexOfFirst { commodityItem -> commodityItem.id == item.id } ?: -1
+
+            if (index >= 0) {
+                dataList?.get(index)?.isSelected = item.isSelected
+                notifyItemChanged(index)
+            }
+
+        }
+    }
+
 }

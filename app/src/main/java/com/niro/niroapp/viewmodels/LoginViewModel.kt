@@ -16,6 +16,12 @@ class LoginViewModel : ViewModel() {
     private val mobileNumber = MutableLiveData<String>()
     private val storedVerificationId = MutableLiveData<String>()
     private val resendToken = MutableLiveData<PhoneAuthProvider.ForceResendingToken>()
+    private val otpExpiryTime = MutableLiveData<String>()
+    private val maxOtpRetry = MutableLiveData(3)
+    private val credential : MutableLiveData<PhoneAuthCredential> = MutableLiveData()
+
+
+    fun getCredential() = credential
 
     fun getMobileNumber() : MutableLiveData<String> = mobileNumber
 
@@ -23,8 +29,10 @@ class LoginViewModel : ViewModel() {
         this.mobileNumber.value = mobileNumber
     }
 
-    fun getStoredVerifciationId() = storedVerificationId
+    fun getStoredVerificiationId() = storedVerificationId
     fun getResendToken() = resendToken
+
+    fun getOtpExpiryTime() = otpExpiryTime
 
 
     fun loginUser(context : Context?) : MutableLiveData<APIResponse>? {
@@ -32,6 +40,12 @@ class LoginViewModel : ViewModel() {
         val loginRepository = mobileNumber.value?.let { LoginRepository<LoginResponse>(it,context) }
         return loginRepository?.getResponse()
 
+    }
+
+    fun getMaxOtpRetry() = maxOtpRetry
+    fun resetOtpValues() {
+        otpExpiryTime.value = ""
+        maxOtpRetry.value = 0
     }
 
 }

@@ -2,6 +2,7 @@ package com.niro.niroapp.viewmodels.repositories
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import com.niro.niroapp.models.APIError
 import com.niro.niroapp.models.APILoader
 import com.niro.niroapp.models.APIResponse
@@ -13,14 +14,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class OrdersRepository(context: Context?) : Repository(context) {
+class OrdersRepository(private val userId: String, context: Context?) : Repository(context) {
 
 
     override fun getResponse(): MutableLiveData<APIResponse> {
 
         val responseData = MutableLiveData<APIResponse>(APILoader(true))
 
-        getAPIInterface()?.orderSummary?.enqueue(object :
+        getAPIInterface()?.getOrderSummary(userId)?.enqueue(object :
             Callback<GenericAPIResponse<OrderSummary>> {
             override fun onFailure(call: Call<GenericAPIResponse<OrderSummary>>, t: Throwable) {
                 responseData.value = APIError(404, getDefaultErrorMessage())
@@ -32,11 +33,20 @@ class OrdersRepository(context: Context?) : Repository(context) {
             ) {
                 if (response.body()?.success != true) {
 
-                    responseData.value = APIError(
-                        response.code(),
-                        response.body()?.message ?: getDefaultErrorMessage()
-                    )
-                    return
+                    try {
+                        val errorResponse = Gson().fromJson<GenericAPIResponse<Any>>(
+                            response.errorBody()?.charStream(),
+                            GenericAPIResponse::class.java
+                        )
+                        responseData.value = APIError(
+                            response.code(),
+                            if (!errorResponse.message.isNullOrEmpty()) errorResponse.message else getDefaultErrorMessage()
+                        )
+                        return
+                    } catch (exception : Exception) {
+                        responseData.value = APIError(response.code(), getDefaultErrorMessage())
+
+                    }
                 }
 
                 responseData.value = Success(response.body()?.data)

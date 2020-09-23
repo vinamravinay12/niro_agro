@@ -16,6 +16,7 @@ import com.niro.niroapp.R
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
 import carbon.dialog.ProgressDialog
+import com.niro.niroapp.activities.MainActivity
 import com.niro.niroapp.databinding.ContactsFragmentBinding
 import com.niro.niroapp.models.APIError
 import com.niro.niroapp.models.APILoader
@@ -23,22 +24,26 @@ import com.niro.niroapp.models.Success
 import com.niro.niroapp.models.responsemodels.Contact
 import com.niro.niroapp.users.viewmodels.ContactsViewModel
 import com.niro.niroapp.users.viewmodels.factories.ContactsViewModelFactory
-import com.niro.niroapp.utils.ItemClickListener
-import com.niro.niroapp.utils.NIroAppConstants
-import com.niro.niroapp.utils.NiroAppUtils
-import com.niro.niroapp.utils.PermissionUtils
+import com.niro.niroapp.utils.*
 
-class ContactsFragment : Fragment(), ItemClickListener {
+class ContactsFragment : Fragment(), ItemClickListener, OnBackPressedListener {
 
     private lateinit var bindingContactsFragment: ContactsFragmentBinding
     private var contactsViewModel: ContactsViewModel? = null
+    private var mPreviousScreenId : Int? = -1
 
     companion object {
         fun newInstance() = ContactsFragment()
     }
 
-    private lateinit var viewModel: ContactsViewModel
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        arguments?.let {
+            mPreviousScreenId = it.getInt(NiroAppConstants.PREVIOUS_SCREEN_ID, -1)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,10 +59,17 @@ class ContactsFragment : Fragment(), ItemClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         contactsViewModel = activity?.let { ContactsViewModelFactory().getViewModel(null, it) }
 
+        setPageTitle()
         initializeContactsRecyclerView()
         initializeListeners()
+
+    }
+
+    private fun setPageTitle() {
+        if(activity is MainActivity) (activity as? MainActivity)?.setToolbarTitleAndImage(getString(R.string.title_select_from_contacts), R.drawable.ic_contacts)
 
     }
 
@@ -67,8 +79,11 @@ class ContactsFragment : Fragment(), ItemClickListener {
     }
 
     private fun initializeListeners() {
+
+        NiroAppUtils.setBackPressedCallback(requireActivity(),viewLifecycleOwner,this)
+
         bindingContactsFragment.cvManualEnter.setOnClickListener {
-            findNavController().navigate(R.id.navigation_create_users_manually)
+            findNavController().navigate(R.id.navigation_create_users_manually, bundleOf(NiroAppConstants.PREVIOUS_SCREEN_ID to mPreviousScreenId))
         }
 
         bindingContactsFragment.etSearchContacts.doAfterTextChanged { filterResult() }
@@ -95,7 +110,7 @@ class ContactsFragment : Fragment(), ItemClickListener {
         if (PermissionUtils.isReadContactsPermissionGranted(context)) {
             fetchContactsFromRepository()
 
-        } else PermissionUtils.askForPermissions(activity, arrayOf(NIroAppConstants.CODE_READ_CONTACTS))
+        } else PermissionUtils.askForPermissions(activity, arrayOf(NiroAppConstants.CODE_READ_CONTACTS))
 
 
 
@@ -148,7 +163,12 @@ class ContactsFragment : Fragment(), ItemClickListener {
 
     override fun onItemClick(item: Any?) {
         val selectedContact = item as? Contact
-        findNavController().navigate(R.id.navigation_create_users_manually, bundleOf(NIroAppConstants.ARG_CONTACT to selectedContact))
+        findNavController().navigate(R.id.navigation_create_users_manually, bundleOf(NiroAppConstants.ARG_CONTACT to selectedContact, NiroAppConstants.PREVIOUS_SCREEN_ID to mPreviousScreenId))
     }
+
+    override fun onBackPressed() {
+        findNavController().popBackStack(R.id.navigation_loaders,false)
+    }
+
 
 }

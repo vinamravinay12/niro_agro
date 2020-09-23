@@ -7,7 +7,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/dp_10"
-        android:background="@android:color/transparent">
+        android:layout_gravity="center"
+        android:background="@color/colorTransparent"
+        android:layout_marginTop="@dimen/_minus60sdp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="@dimen/_154sdp"

@@ -6,18 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.niro.niroapp.R
-import com.niro.niroapp.activities.LoginActivity
 import com.niro.niroapp.databinding.LayoutEnterBusinessBinding
-import com.niro.niroapp.databinding.LayoutEnterNameBinding
-import com.niro.niroapp.utils.FragmentUtils
-import com.niro.niroapp.utils.NIroAppConstants
 import com.niro.niroapp.utils.NiroAppUtils
 import com.niro.niroapp.viewmodels.SignupViewModel
 import com.niro.niroapp.viewmodels.factories.SignUpViewModelFactory
-import kotlinx.android.synthetic.main.layout_enter_business.*
 
-class EnterBusinessFragment : Fragment() {
+class EnterBusinessFragment : AbstractBaseFragment() {
 
     private lateinit var bindingEnterBusinessFragment: LayoutEnterBusinessBinding
     private var signUpViewModel : SignupViewModel? = null
@@ -36,11 +32,13 @@ class EnterBusinessFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as? LoginActivity)?.hideChildFrameLayout(false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        super.registerBackPressedCallback(R.id.enterNameFragment)
         bindingEnterBusinessFragment.btnNext.setOnClickListener {
             if(signUpViewModel?.validateBusinessName() != true) NiroAppUtils.showSnackbar(getString(R.string.business_name_missing),bindingEnterBusinessFragment.root)
 
@@ -50,9 +48,8 @@ class EnterBusinessFragment : Fragment() {
     }
 
     private fun launchSelectCommoditiesFragment() {
-        (activity as? LoginActivity)?.hideChildFrameLayout(true)
-        FragmentUtils.launchFragment(activity?.supportFragmentManager,view = R.id.fl_login_parent,
-            fragment = CommoditiesFragment.newInstance(),tag = NIroAppConstants.TAG_COMMODITIES)
+       findNavController().navigate(R.id.action_enterBusinessFragment_to_commoditiesFragment)
+
     }
 
 }

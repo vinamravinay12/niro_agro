@@ -36,8 +36,6 @@
             android:paddingBottom="@dimen/dp_10">
 
 
-
-
             <TextView
                 android:id="@+id/tvPaymentAmount"
                 android:layout_width="wrap_content"
@@ -50,6 +48,7 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:paddingEnd="@dimen/dp_4"
+                android:text="@{paymentsVM.getPaymentAmountDisplayValue(position)}"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -67,6 +66,7 @@
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:padding="@dimen/dp_2"
+                android:text="@{paymentsVM.getPaymentDate(position)}"
                 android:scrollHorizontally="true"
                 android:textColor="@color/textSearchBox"
                 android:textSize="@dimen/_9ssp"
@@ -86,6 +86,7 @@
                 android:textSize="@dimen/_12ssp"
                 tools:text="Vinamra Vinay dsssd ds"
                 android:ems="8"
+                android:text="@{paymentsVM.getContactName(position)}"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -103,6 +104,7 @@
                 android:gravity="end"
                 android:maxLines="2"
                 android:ellipsize="end"
+                android:text="@{paymentsVM.getMandiLocation(position)}"
                 tools:text="Manduadih, Uttar Pradesh"
                 android:textColor="@color/textSearchBox"
                 android:textSize="@dimen/_9ssp"

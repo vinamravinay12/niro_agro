@@ -2,6 +2,7 @@ package com.niro.niroapp.viewmodels.repositories
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import com.niro.niroapp.models.APIError
 import com.niro.niroapp.models.APILoader
 import com.niro.niroapp.models.APIResponse
@@ -28,8 +29,20 @@ class CreateOrderRepository(private val createOrderPostData: CreateOrderPostData
             override fun onResponse(call: Call<GenericAPIResponse<String>>, response: Response<GenericAPIResponse<String>>) {
 
                 if(response.body()?.success != true) {
-                    apiResponse.value = APIError(response.code(),errorMessage = response.body()?.message ?: getDefaultErrorMessage())
-                    return
+                    try {
+                        val errorResponse = Gson().fromJson<GenericAPIResponse<Any>>(
+                            response.errorBody()?.charStream(),
+                            GenericAPIResponse::class.java
+                        )
+                        apiResponse.value = APIError(
+                            response.code(),
+                            if (!errorResponse.message.isNullOrEmpty()) errorResponse.message else getDefaultErrorMessage()
+                        )
+                        return
+                    } catch (exception : Exception) {
+                        apiResponse.value = APIError(response.code(), getDefaultErrorMessage())
+
+                    }
                 }
 
                 apiResponse.value = Success(data = response.body()?.data)

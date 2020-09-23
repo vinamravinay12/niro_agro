@@ -29,3 +29,7 @@ interface FilterResultsListener<E:Searchable> {
 interface DateChangeListener {
     fun onDateChanged(date : String?)
 }
+
+interface CallUserListener {
+    fun callUser(number : String)
+}

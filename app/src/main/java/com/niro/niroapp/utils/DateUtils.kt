@@ -24,6 +24,7 @@ object DateUtils {
 
     fun getDate(dateString : String?, format : String) : Date? {
 
+        if(dateString.isNullOrEmpty()) return Date()
         return SimpleDateFormat(format, Locale.ENGLISH).parse(dateString)
     }
 }

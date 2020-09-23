@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="contactDetailVM"
+            type="com.niro.niroapp.viewmodels.UserDetailViewModel"  />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.UserDetailFragment">
+
+
+    <include
+        android:id="@+id/layoutUserDetails"
+        layout="@layout/layout_user_contact_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvAmountPending"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:textSize="@dimen/_12ssp"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/roboto_bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutUserDetails" />
+
+    <carbon.widget.Button
+        android:id="@+id/btnAddOrder"
+        style="@style/buttonAddStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
+        android:drawableEnd="@drawable/ic_add_24"
+        android:drawablePadding="@dimen/_8sdp"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingTop="@dimen/dp_14"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingBottom="@dimen/dp_14"
+        android:text="@string/add_order"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAmountPending" />
+
+    <carbon.widget.Button
+        android:id="@+id/btnAddPayment"
+        style="@style/buttonAddStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="16dp"
+        android:drawableEnd="@drawable/ic_add_24"
+        android:drawablePadding="@dimen/_8sdp"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingTop="@dimen/dp_14"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingBottom="@dimen/dp_14"
+        android:text="@string/add_payment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnAddOrder"
+        app:layout_constraintTop_toBottomOf="@+id/tvAmountPending" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:background="@drawable/dashed_line_separator"
+        android:layerType="software"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAddOrder" />
+
+    <RadioGroup
+        android:id="@+id/groupUserDetailTabs"
+        android:layout_width="@dimen/_180sdp"
+        android:layout_height="@dimen/_26sdp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view">
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.45"
+            android:id="@+id/rbOrders"
+            android:text="@string/title_orders"
+            android:textSize="@dimen/_12ssp"
+            android:button="@null"
+            android:gravity="center"
+            android:checked="true"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/color_tab_contact_details"
+            android:background="@drawable/background_tab_contact_details" />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.45"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:id="@+id/rbPayments"
+            android:text="@string/title_payments"
+            android:textSize="@dimen/_12ssp"
+            android:button="@null"
+            android:gravity="center"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/color_tab_contact_details"
+            android:background="@drawable/background_tab_contact_details" />
+    </RadioGroup>
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/flDetailsList"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginBottom="@dimen/_4sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/groupUserDetailTabs" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

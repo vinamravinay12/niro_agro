@@ -39,11 +39,10 @@
                     android:layout_height="@dimen/_50sdp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:alpha="0.4"
                     android:background="@drawable/cicular_image_green"
-                    android:padding="@dimen/dp_10"
+                    android:padding="@dimen/dp_12"
+                    android:alpha="0.4"
                     android:scaleType="centerCrop"
-                    android:tint="@color/colorWhite"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_commodity_image" />

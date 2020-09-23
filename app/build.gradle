@@ -2,9 +2,24 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.firebase.crashlytics'
 
 
 android {
+    signingConfigs {
+        release {
+            storePassword '@Admin123$'
+            keyAlias 'keyNiro'
+            keyPassword '@Admin123$'
+            storeFile file('/Volumes/STRONTIUM/niro_agro/keystore/release/releasekey')
+        }
+        prodRelease {
+            storeFile file('/Volumes/STRONTIUM/niro_agro/keystore/prodrelease/prodkey')
+            storePassword '@Niro_admin#123$'
+            keyAlias 'niroProd'
+            keyPassword '@Niro_admin#123$'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
@@ -12,22 +27,60 @@ android {
         applicationId "com.niro.niroapp"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode 4
+        versionName "1.1.2.Internal"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+    flavorDimensions "env"
+
+    productFlavors {
+        development {
+            dimension 'env'
+            buildConfigField "String", "BASE_URL", "\"https://niroapp.df.r.appspot.com\""
+            buildConfigField "String", "FILE_UPLOAD_URL","\"gs://niroapp.appspot.com/\""
+            applicationId 'com.niro.niroapp'
+            versionCode 4
+            versionName '1.1.2.Internal'
+            targetSdkVersion 29
+            minSdkVersion 19
+            signingConfig signingConfigs.release
+        }
+
+        production {
+            dimension 'env'
+            buildConfigField "String", "BASE_URL", "\"https://niro-agri-20.el.r.appspot.com\""
+            buildConfigField "String", "FILE_UPLOAD_URL","\"gs://niro-agri-20.appspot.com/\""
+            applicationId 'com.niro.niroapp'
+            versionCode 4
+            versionName '1.1.2'
+            targetSdkVersion 29
+            minSdkVersion 19
+            signingConfig signingConfigs.prodRelease
         }
     }
 
-    dataBinding {
-        enabled = true
+    buildTypes {
+        release {
+            minifyEnabled false
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+
+            debuggable true
+        }
+    }
+
+    buildFeatures {
+        dataBinding {
+            enabled = true
+        }
+
     }
 
 
@@ -43,14 +96,14 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.core:core-ktx:1.3.1'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.intuit.ssp:ssp-android:1.0.6'
     implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.0.0'
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.google.firebase:firebase-auth:19.3.2'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
@@ -62,27 +115,31 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
-    implementation 'com.google.firebase:firebase-storage-ktx:19.1.1'
+    implementation 'com.google.firebase:firebase-storage-ktx:19.2.0'
+    implementation 'com.google.android.play:core-ktx:1.8.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
-    implementation 'com.google.firebase:firebase-core:17.4.2'
-    implementation 'com.google.firebase:firebase-messaging:20.2.0'
+    implementation 'com.google.firebase:firebase-core:17.5.0'
+    implementation 'com.google.firebase:firebase-messaging:20.2.4'
     api 'tk.zielony:carbon:0.16.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     def work_version = "2.4.0"
     implementation "androidx.work:work-runtime-ktx:$work_version"
-    kapt 'androidx.databinding:databinding-compiler:4.0.0'
+    kapt 'androidx.databinding:databinding-compiler:4.0.1'
+    implementation 'com.google.firebase:firebase-analytics-ktx:17.5.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:21.6.0'
+    implementation 'com.facebook.android:facebook-android-sdk:5.15.3'
 
     def multidex_version = "2.0.1"
     implementation "androidx.multidex:multidex:$multidex_version"
 
-    implementation 'com.googlecode.libphonenumber:libphonenumber:8.7.0'
+    implementation 'com.googlecode.libphonenumber:libphonenumber:8.9.9'
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
 }
 

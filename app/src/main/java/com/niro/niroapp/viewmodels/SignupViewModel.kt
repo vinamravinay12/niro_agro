@@ -46,7 +46,7 @@ class SignupViewModel(phoneNumber: String?): ViewModel() {
 
     fun signUpUser(context: Context?) : MutableLiveData<APIResponse> {
         val signupPostData = SignupPostData(name = fullName.value,businessName = businessName.value,
-            userType = userType.value?.name,mandiLocation = selectedMandiLocation.value,
+            userType = userType.value?.name ?: UserType.FARMER.name,mandiLocation = selectedMandiLocation.value,
             selectedCategories = selectedCommodities.value, phoneNumber = phoneNumber.value )
 
         val signUpRepository = SignUpRepository<LoginResponse>(signupPostData,context)

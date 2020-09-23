@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import com.google.firebase.storage.FirebaseStorage
+import com.niro.niroapp.BuildConfig
 import com.niro.niroapp.network.NiroAPI
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -12,7 +13,7 @@ import java.io.IOException
 
 
 enum class FileType {
-    ORDER_IMAGE,PAYMENTS_IMAGE
+    ORDER_IMAGE,PAYMENTS_IMAGE,SELL_COMMODITY_IMAGE
 }
 
 interface FileUploadResponseHandler {
@@ -31,7 +32,7 @@ class FirebaseFileUploadService(private val context : Context) {
 
 
     private var firebaseStorage: FirebaseStorage =
-        FirebaseStorage.getInstance(NiroAPI.FILE_UPLOAD_URL)
+        FirebaseStorage.getInstance(BuildConfig.FILE_UPLOAD_URL)
 
 
     fun uploadFile(
@@ -43,7 +44,7 @@ class FirebaseFileUploadService(private val context : Context) {
     ) {
         val storageReference = firebaseStorage.reference
         val uploadFile = File(filePath);
-        val fileReference = storageReference.child("guest_docs/$userId/${uploadFile.name}")
+        val fileReference = storageReference.child("user_docs/$userId/${uploadFile.name}")
 
         var fileUri = Uri.fromFile(uploadFile)
 
@@ -82,7 +83,7 @@ class FirebaseFileUploadService(private val context : Context) {
         fileType: FileType
     ) {
         val storageReference = firebaseStorage.reference
-        val fileReference = storageReference.child("guest_docs/$userId/$fileName")
+        val fileReference = storageReference.child("user_docs/$userId/$fileName")
         fileReference.downloadUrl.addOnCanceledListener {
             if (retryCount > 0) downloadFile(
                 fileName,

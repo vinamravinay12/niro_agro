@@ -12,7 +12,11 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import carbon.dialog.ProgressDialog
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.niro.niroapp.R
+import com.niro.niroapp.activities.MainActivity
 import com.niro.niroapp.adapters.RecyclerScrollDirectionListener
 import com.niro.niroapp.adapters.RecyclerScrollListener
 import com.niro.niroapp.databinding.PaymentsFragmentBinding
@@ -21,18 +25,19 @@ import com.niro.niroapp.models.APILoader
 import com.niro.niroapp.models.Success
 import com.niro.niroapp.models.responsemodels.User
 import com.niro.niroapp.models.responsemodels.UserPayment
-import com.niro.niroapp.models.responsemodels.UserType
-import com.niro.niroapp.utils.NIroAppConstants
+import com.niro.niroapp.utils.NiroAppConstants
 import com.niro.niroapp.utils.NiroAppUtils
+import com.niro.niroapp.utils.OnBackPressedListener
 import com.niro.niroapp.viewmodels.PaymentsViewModel
 import com.niro.niroapp.viewmodels.factories.OrdersViewModelFactory
 
-class PaymentsFragment : Fragment(), RecyclerScrollDirectionListener {
+class PaymentsFragment : Fragment(), RecyclerScrollDirectionListener, OnBackPressedListener {
 
     private var paymentsViewModel: PaymentsViewModel? = null
     private lateinit var bindingPaymentsFragment: PaymentsFragmentBinding
     private var mCurrentUser : User? = null
     private var mProgressDialog : ProgressDialog? = null
+    private lateinit var firebaseAnalytics : FirebaseAnalytics
 
 
     companion object {
@@ -45,8 +50,10 @@ class PaymentsFragment : Fragment(), RecyclerScrollDirectionListener {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            mCurrentUser = it.getParcelable(NIroAppConstants.ARG_USER_CONTACT)
+            mCurrentUser = it.getParcelable(NiroAppConstants.ARG_CURRENT_USER) as? User
         }
+
+        firebaseAnalytics = Firebase.analytics
     }
 
 
@@ -55,6 +62,8 @@ class PaymentsFragment : Fragment(), RecyclerScrollDirectionListener {
 
         bindingPaymentsFragment = DataBindingUtil.inflate(inflater,R.layout.payments_fragment, container, false)
         bindingPaymentsFragment.lifecycleOwner = viewLifecycleOwner
+
+        firebaseAnalytics.setCurrentScreen(requireActivity(),getString(R.string.title_payments),null)
         return bindingPaymentsFragment.root
     }
 
@@ -62,18 +71,30 @@ class PaymentsFragment : Fragment(), RecyclerScrollDirectionListener {
         super.onActivityCreated(savedInstanceState)
         paymentsViewModel = activity?.let { OrdersViewModelFactory(mCurrentUser).getViewModel(mCurrentUser, it) }
 
-        paymentsViewModel?.getAmountPrefix()?.value = getString(R.string.rupee_symbol)
+        setAmountSymbol()
+        setPageTitle()
         initializeListeners()
         initializeHeaders()
         initializeOrdersRecyclerView()
     }
 
+    private fun setAmountSymbol() {
+        paymentsViewModel?.getAmountPrefix()?.value = getString(R.string.rupee_symbol)
+    }
+
+    private fun setPageTitle() {
+        if(activity is MainActivity) (activity as? MainActivity)?.setToolbarTitleAndImage(getString(R.string.title_payments),R.drawable.ic_payments)
+    }
+
     override fun onResume() {
         super.onResume()
         if(!paymentsViewModel?.getPaymentsList()?.value.isNullOrEmpty())  {
+            bindingPaymentsFragment.refreshPaymentsList.post { Runnable {
+                bindingPaymentsFragment.refreshPaymentsList.isRefreshing = true
+            } }
             bindingPaymentsFragment.refreshPaymentsList.isRefreshing = true
         } else {
-            showNoUsers(true)
+            showNoPayments(true)
         }
         fetchPayments()
 
@@ -87,7 +108,7 @@ class PaymentsFragment : Fragment(), RecyclerScrollDirectionListener {
         bindingPaymentsFragment.rvPaymentsList.setHasFixedSize(true)
         bindingPaymentsFragment.rvPaymentsList.adapter = adapter
 
-        bindingPaymentsFragment.rvPaymentsList.addOnScrollListener(RecyclerScrollListener(this))
+      //  bindingPaymentsFragment.rvPaymentsList.addOnScrollListener(RecyclerScrollListener(this))
     }
 
     private fun getVariables(): HashMap<Int, Any?> {
@@ -104,7 +125,9 @@ class PaymentsFragment : Fragment(), RecyclerScrollDirectionListener {
     }
 
     private fun initializeListeners() {
-        bindingPaymentsFragment.btnAddOrder.setOnClickListener { showContactsList() }
+
+        NiroAppUtils.setBackPressedCallback(requireActivity(),viewLifecycleOwner,this)
+        bindingPaymentsFragment.btnAddPayment.setOnClickListener { showContactsList() }
         bindingPaymentsFragment.refreshPaymentsList.setOnRefreshListener { fetchPayments() }
     }
 
@@ -113,7 +136,7 @@ class PaymentsFragment : Fragment(), RecyclerScrollDirectionListener {
 
     private fun showContactsList() {
         findNavController().navigate(R.id.action_navigation_payments_to_navigation_contacts_list,
-            bundleOf(NIroAppConstants.ARG_CURRENT_USER to mCurrentUser, NIroAppConstants.ARG_NEXT_NAVIGATION_ID to R.id.action_navigation_contacts_list_to_navigation_create_payment)
+            bundleOf(NiroAppConstants.ARG_CURRENT_USER to mCurrentUser, NiroAppConstants.ARG_NEXT_NAVIGATION_ID to R.id.action_navigation_contacts_list_to_navigation_create_payment)
         )
     }
 
@@ -124,13 +147,12 @@ class PaymentsFragment : Fragment(), RecyclerScrollDirectionListener {
             when(response) {
 
                 is APILoader -> {
-                    if(mCurrentUser?.userType != UserType.COMMISSION_AGENT.name) handleProgress(getString(R.string.fetching_buyers),true)
-                    else handleProgress(getString(R.string.fetching_loaders),true)
+                    handleProgress(getString(R.string.fetching_payments),true)
                 }
 
                 is APIError -> {
                     handleProgress("",false)
-                    NiroAppUtils.showSnackbar(response.errorMessage,bindingPaymentsFragment.root)
+                    if(response.errorCode != 422) NiroAppUtils.showSnackbar(response.errorMessage,bindingPaymentsFragment.root)
                 }
 
                 is Success<*> -> {
@@ -143,18 +165,18 @@ class PaymentsFragment : Fragment(), RecyclerScrollDirectionListener {
 
     private fun handleSuccessResponse(list: List<UserPayment>?) {
         if(list.isNullOrEmpty()) {
-            showNoUsers(true)
+            showNoPayments(true)
             return
         }
 
-        showNoUsers(false)
+        showNoPayments(false)
         paymentsViewModel?.getPaymentsList()?.value = list.toMutableList()
         initializeHeaders()
         paymentsViewModel?.updateList()
     }
 
-    private fun showNoUsers(toShow: Boolean) {
-        bindingPaymentsFragment.noUsersLayout.tvNoItemMessage.text = String.format(getString(R.string.no_orders_created),
+    private fun showNoPayments(toShow: Boolean) {
+        bindingPaymentsFragment.noUsersLayout.tvNoItemMessage.text = String.format(getString(R.string.no_payments_added),
             NiroAppUtils.getCurrentUserType(mCurrentUser?.userType))
         if(toShow) {
             bindingPaymentsFragment.noUsersLayout.noItemParent.visibility = View.VISIBLE
@@ -174,16 +196,20 @@ class PaymentsFragment : Fragment(), RecyclerScrollDirectionListener {
         }
         else if(!bindingPaymentsFragment.refreshPaymentsList.isRefreshing && toShow) {
             mProgressDialog = context?.let { NiroAppUtils.showLoaderProgress(progressMessage, it) }
+
         }
 
-        else {
+        else if(!toShow && mProgressDialog?.isShowing == true){
             mProgressDialog?.dismiss()
-            bindingPaymentsFragment.refreshPaymentsList.isRefreshing = false
         }
     }
 
     override fun onScrolledDown(isDown: Boolean) {
-        bindingPaymentsFragment.btnAddOrder.visibility = if(isDown) View.GONE else View.VISIBLE
+        bindingPaymentsFragment.btnAddPayment.visibility = if(isDown) View.GONE else View.VISIBLE
+    }
+
+    override fun onBackPressed() {
+        findNavController().popBackStack(R.id.navigation_home,false)
     }
 
 }

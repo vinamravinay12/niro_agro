@@ -14,7 +14,7 @@ import com.niro.niroapp.databinding.FragmentSupportBinding
 import com.niro.niroapp.utils.NiroAppUtils
 
 
-class SupportFragment : Fragment() {
+class SupportFragment : AbstractBaseFragment() {
 
     private lateinit var bindingSupportFragment : FragmentSupportBinding
 
@@ -29,10 +29,13 @@ class SupportFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        super.setPageTitle(getString(R.string.menu_support),R.drawable.ic_phone_32)
         initializeListeners()
     }
 
     private fun initializeListeners() {
+        super.registerBackPressedCallback(R.id.navigation_home)
         bindingSupportFragment.btnCallUs.setOnClickListener { callUs() }
         bindingSupportFragment.btnContactWhatsApp.setOnClickListener { contactUsOnWhatApp() }
     }

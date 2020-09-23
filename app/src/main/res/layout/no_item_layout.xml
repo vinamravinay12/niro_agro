@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_23sdp"
         android:textSize="@dimen/_20sdp"
+        android:gravity="center"
         android:textColor="@color/colorBlack"
         android:fontFamily="@font/roboto_medium"
         app:layout_constraintEnd_toEndOf="parent"

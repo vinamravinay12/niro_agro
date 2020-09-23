@@ -9,26 +9,28 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import carbon.dialog.ProgressDialog
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
 import com.google.firebase.auth.FirebaseAuth
 import com.niro.niroapp.R
 import com.niro.niroapp.activities.MainActivity
 import com.niro.niroapp.database.DatabaseKeys
 import com.niro.niroapp.database.SharedPreferenceManager
 import com.niro.niroapp.databinding.FragmentUserTypeBinding
+import com.niro.niroapp.firebase.FirebaseTokenGeneratedDelegate
 import com.niro.niroapp.firebase.FirebaseTokenGenerator
-import com.niro.niroapp.firebase.FirebaseTokenGeneratorListener
 import com.niro.niroapp.models.APIError
 import com.niro.niroapp.models.APILoader
 import com.niro.niroapp.models.Success
 import com.niro.niroapp.models.responsemodels.LoginResponse
 import com.niro.niroapp.models.responsemodels.UserType
-import com.niro.niroapp.utils.NIroAppConstants
+import com.niro.niroapp.utils.NiroAppConstants
 import com.niro.niroapp.utils.NiroAppUtils
 import com.niro.niroapp.viewmodels.SignupViewModel
 import com.niro.niroapp.viewmodels.factories.SignUpViewModelFactory
 
 
-class UserTypeFragment : Fragment(),FirebaseTokenGeneratorListener {
+class UserTypeFragment : AbstractBaseFragment(),FirebaseTokenGeneratedDelegate {
 
     private lateinit var bindingUserTypeFragment: FragmentUserTypeBinding
     private var signupViewModel : SignupViewModel? = null
@@ -51,21 +53,18 @@ class UserTypeFragment : Fragment(),FirebaseTokenGeneratorListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         signupViewModel = activity?.let { SignUpViewModelFactory("").getViewModel(null,it) }
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         selectFarmerType(true)
         initializeListeners()
+
     }
+
+
 
 
 
     private fun initializeListeners() {
 
-
+        super.registerBackPressedCallback(R.id.mandiListFragment)
         bindingUserTypeFragment.flUserFarmer.setOnClickListener { selectFarmerType(true) }
         bindingUserTypeFragment.flUserCommissionAgent.setOnClickListener { selectAgentType(true) }
         bindingUserTypeFragment.flUserLoader.setOnClickListener { selectLoaderType(true) }
@@ -81,12 +80,12 @@ class UserTypeFragment : Fragment(),FirebaseTokenGeneratorListener {
                 is APILoader -> progressDialog = context?.let { NiroAppUtils.showLoaderProgress(getString(R.string.signing_up), it)}
 
                 is APIError -> {
-                    progressDialog?.dismiss()
+                    if(progressDialog != null && progressDialog?.isShowing == true) progressDialog?.dismiss()
                     NiroAppUtils.showSnackbar(response.errorMessage,root = bindingUserTypeFragment.root)
                 }
 
                 is Success<*> -> {
-                    signInWithCustomToken(response.data as? LoginResponse)
+                    if(progressDialog != null && progressDialog?.isShowing == true) signInWithCustomToken(response.data as? LoginResponse)
                 }
             }
 
@@ -103,8 +102,8 @@ class UserTypeFragment : Fragment(),FirebaseTokenGeneratorListener {
                     FirebaseTokenGenerator(this).generateIdToken(activity)
                     saveUserData(loginResponse)
                 } else {
-                    progressDialog?.dismiss()
-                    NiroAppUtils.showSnackbar(getString(R.string.login_failed),bindingUserTypeFragment.root)
+                    if(progressDialog != null && progressDialog?.isShowing == true) progressDialog?.dismiss()
+                    NiroAppUtils.showSnackbar(getString(R.string.signup_failed),bindingUserTypeFragment.root)
                 }
             }
 
@@ -112,15 +111,20 @@ class UserTypeFragment : Fragment(),FirebaseTokenGeneratorListener {
 
     }
 
+
+    fun logSignUpEvent (valToSum : Double) {
+        val appEventsLogger = AppEventsLogger.newLogger(requireContext())
+        appEventsLogger.logEvent("sign_up",valToSum)
+    }
+
     private fun saveUserData(loginResponse: LoginResponse?) {
+
         context?.let {
-            val sharedPreferenceManager = SharedPreferenceManager(it, NIroAppConstants.LOGIN_SP)
-            sharedPreferenceManager.storeComplexObjectPreference(NIroAppConstants.USER_DATA,loginResponse?.data)
+            logSignUpEvent(1.0)
+            val sharedPreferenceManager = SharedPreferenceManager(it, NiroAppConstants.LOGIN_SP)
+            sharedPreferenceManager.storeComplexObjectPreference(NiroAppConstants.USER_DATA,loginResponse?.data)
 
         }
-
-        launchMainActivity()
-
     }
 
 
@@ -174,9 +178,9 @@ class UserTypeFragment : Fragment(),FirebaseTokenGeneratorListener {
     }
 
     override fun onTokenGenerated(isSuccess: Boolean) {
-        progressDialog?.dismiss()
+        if(progressDialog != null && progressDialog?.isShowing == true) progressDialog?.dismiss()
         if(isSuccess) {
-            val sharedPreferenceManager = context?.let { SharedPreferenceManager(it,NIroAppConstants.LOGIN_SP) }
+            val sharedPreferenceManager = context?.let { SharedPreferenceManager(it,NiroAppConstants.LOGIN_SP) }
             sharedPreferenceManager?.storeBooleanPreference(DatabaseKeys.KEY_LOGGED_IN,true)
             launchMainActivity()
         }

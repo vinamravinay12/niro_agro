@@ -2,6 +2,7 @@
 <layout>
 
     <data>
+
         <variable
             name="SignUpVM"
             type="com.niro.niroapp.viewmodels.SignupViewModel" />
@@ -14,45 +15,77 @@
         android:layout_height="match_parent">
 
 
-        <TextView
-            android:id="@+id/tvEnterBusinessHeader"
-            style="@style/header_login_screen_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:text="@string/txt_header_enter_business"
+        <carbon.widget.FrameLayout
+            android:id="@+id/fl_background"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_250sdp"
+            android:background="@color/colorPrimary"
+            app:carbon_cornerCutBottomEnd="@dimen/_50sdp"
+            app:carbon_cornerCutBottomStart="@dimen/_50sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <carbon.widget.EditText
-            android:id="@+id/etEnterBusiness"
-            style="@style/signupUserDetails"
+        <androidx.cardview.widget.CardView
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_31sdp"
-            android:layout_marginEnd="@dimen/_16sdp"
-            android:hint="@string/txt_enter_business"
-            android:padding="@dimen/_8sdp"
-            android:text="@={SignUpVM.businessName}"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_27sdp"
+            android:layout_marginTop="@dimen/_85sdp"
+            android:layout_marginEnd="@dimen/_27sdp"
+            android:layout_marginBottom="@dimen/_120sdp"
+            app:cardCornerRadius="@dimen/_18sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvEnterBusinessHeader" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <carbon.widget.Button
-            android:id="@+id/btnNext"
-            style="@style/loginButton"
-            android:layout_width="0dp"
-            android:layout_marginTop="@dimen/_31sdp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/txt_btn_next"
-            android:textSize="@dimen/_16sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etEnterBusiness" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fl_enter_business"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
 
+                <TextView
+                    android:id="@+id/tvEnterBusinessHeader"
+                    style="@style/header_login_screen_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/txt_header_enter_business"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <carbon.widget.EditText
+                    android:id="@+id/etEnterBusiness"
+                    style="@style/signupUserDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_31sdp"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    android:hint="@string/txt_enter_business"
+                    android:padding="@dimen/_8sdp"
+                    android:text="@={SignUpVM.businessName}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvEnterBusinessHeader" />
+
+                <carbon.widget.Button
+                    android:id="@+id/btnNext"
+                    style="@style/loginButton"
+                    android:layout_width="0dp"
+                    android:layout_marginTop="@dimen/_31sdp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/txt_btn_next"
+                    android:textSize="@dimen/_16sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etEnterBusiness" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

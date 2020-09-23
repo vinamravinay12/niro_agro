@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="createSellOrderVM"
+            type="com.niro.niroapp.viewmodels.CreateSellOrderViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".users.fragments.CreateManualContactFragment">
+
+        <TextView
+            android:id="@+id/tvSellHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_17sdp"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/text_sell_commodities"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/etEnterCommodity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_18sdp"
+            style="@style/editTextForm"
+            android:hint="@string/hint_enter_commodity"
+            android:text="@={createSellOrderVM.commodityName}"
+            android:textAppearance="@style/formEditTextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSellHeader" />
+
+        <EditText
+            android:id="@+id/etQuantityAvailable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_14sdp"
+            style="@style/editTextForm"
+            android:text="@={createSellOrderVM.quantityAvailable}"
+            android:hint="@string/hint_quantity_available"
+            android:inputType="numberDecimal"
+            android:textAppearance="@style/formEditTextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etEnterCommodity" />
+
+
+        <RadioGroup
+            android:id="@+id/groupQuantityType"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_marginStart="@dimen/_17sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_17sdp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etQuantityAvailable">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <RadioButton
+                    android:id="@+id/rbQuantityTypeKg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/background_payment_mode"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/btn_text_Kg" />
+
+                <ImageView
+                    android:id="@+id/ivQuantityKgSelected"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    android:visibility="invisible"
+                    app:srcCompat="@drawable/ic_check_circle_24" />
+
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_weight="1">
+
+                <RadioButton
+                    android:id="@+id/rbQuantityTypeQuintal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/background_payment_mode"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="@string/btn_text_quintal" />
+
+                <ImageView
+                    android:id="@+id/ivQuantityQunitalSelected"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/ic_check_circle_24" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/_8sdp">
+
+                <RadioButton
+                    android:id="@+id/rbQuantityTypeTon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/background_payment_mode"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/btn_txt_ton" />
+
+                <ImageView
+                    android:id="@+id/ivQuantityTonSelected"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    android:visibility="invisible"
+                    app:srcCompat="@drawable/ic_check_circle_24" />
+
+            </FrameLayout>
+        </RadioGroup>
+
+
+        <EditText
+            android:id="@+id/etPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            style="@style/editTextForm"
+            android:inputType="numberDecimal"
+            android:text="@={createSellOrderVM.price}"
+            android:hint="@string/hint_price"
+            android:textAppearance="@style/formEditTextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:paddingEnd="@dimen/_12sdp"
+            app:layout_constraintTop_toBottomOf="@+id/groupQuantityType" />
+
+        <EditText
+            android:id="@+id/etDispatchDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_14sdp"
+            style="@style/editTextForm"
+            android:hint="@string/hint_dispatch_date"
+            android:drawableEnd="@drawable/ic_date_range_24"
+            android:paddingEnd="@dimen/_12sdp"
+            android:textAppearance="@style/formEditTextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etPrice" />
+
+
+        <EditText
+            android:id="@+id/etAddImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_14sdp"
+            style="@style/editTextForm"
+            android:hint="@string/hint_add_image"
+            android:drawableEnd="@drawable/ic_add_photo_24"
+            android:paddingEnd="@dimen/_12sdp"
+            android:textAppearance="@style/formEditTextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etDispatchDate" />
+
+        <ImageView
+            android:id="@+id/ivOrderImage"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="19dp"
+            android:src="@drawable/rice"
+            android:background="@drawable/order_image"
+            android:scaleType="fitXY"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etAddImage" />
+
+
+        <carbon.widget.Button
+            android:id="@+id/btnCreateSellOrder"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_42sdp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/txt_btn_done"
+            style="@style/buttonNextStyle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

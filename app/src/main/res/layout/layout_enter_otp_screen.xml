@@ -1,74 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
-        <TextView
-            android:id="@+id/tvEnterOtpHeader"
-            style="@style/header_login_screen_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:text="@string/txt_enter_otp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <carbon.widget.FrameLayout
+                android:id="@+id/fl_background"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_250sdp"
+                android:background="@color/colorPrimary"
+                app:carbon_cornerCutBottomEnd="@dimen/_50sdp"
+                app:carbon_cornerCutBottomStart="@dimen/_50sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.mukesh.OtpView
-            android:id="@+id/etOtp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_19sdp"
-            android:layout_marginTop="@dimen/_46sdp"
-            android:layout_marginEnd="@dimen/_19sdp"
-            android:alpha="0.3"
-            android:inputType="number"
-            android:cursorVisible="true"
-            android:fontFamily="@font/roboto_bold"
-            android:itemBackground="@color/colorNumberBoxBackground"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/_14ssp"
-            app:cursorColor="@color/colorBlack"
-            app:itemCount="6"
-            app:itemHeight="@dimen/_45sdp"
-            app:itemSpacing="@dimen/_8sdp"
-            app:itemWidth="@dimen/_28sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvEnterOtpHeader"
-            app:viewType="rectangle"
-            tools:text="9431609157" />
+            <androidx.cardview.widget.CardView
 
-        <carbon.widget.Button
-            android:id="@+id/btnVerifyNumber"
-            style="@style/loginButton"
-            android:layout_width="0dp"
-            android:layout_marginBottom="@dimen/_31sdp"
-            android:text="@string/txt_verify_number"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_27sdp"
+                android:layout_marginTop="@dimen/_85sdp"
+                android:layout_marginEnd="@dimen/_27sdp"
+                android:layout_marginBottom="@dimen/_120sdp"
+                app:cardCornerRadius="@dimen/_18sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tvTermsConditions"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_27sdp"
-            android:layout_marginEnd="@dimen/_27sdp"
-            android:layout_marginBottom="@dimen/_9sdp"
-            android:fontFamily="@font/roboto"
-            android:gravity="center"
-            android:text="@string/txt_resend_otp"
-            android:textColor="@color/colorTextGreyA7"
-            android:textSize="@dimen/_12ssp"
-            app:layout_constraintBottom_toTopOf="@+id/btnVerifyNumber"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/fl_otp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:id="@+id/tvEnterOtpHeader"
+                        style="@style/header_login_screen_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="@string/txt_enter_otp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.mukesh.OtpView
+                        android:id="@+id/etOtp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_46sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:alpha="0.3"
+                        android:cursorVisible="true"
+                        android:fontFamily="@font/roboto_bold"
+                        android:inputType="number"
+                        android:itemBackground="@color/colorNumberBoxBackground"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/_14ssp"
+                        app:cursorColor="@color/colorBlack"
+                        app:itemCount="6"
+                        app:itemHeight="@dimen/_45sdp"
+                        app:itemSpacing="@dimen/_8sdp"
+                        app:itemWidth="@dimen/_28sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvEnterOtpHeader"
+                        app:viewType="rectangle"
+                        tools:text="9431609157" />
+
+                    <carbon.widget.Button
+                        android:id="@+id/btnVerifyNumber"
+                        style="@style/loginButton"
+                        android:layout_width="0dp"
+                        android:layout_marginBottom="@dimen/_31sdp"
+                        android:text="@string/txt_verify_number"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvTermsConditions"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_45sdp"
+                        android:layout_marginBottom="@dimen/_9sdp"
+                        android:fontFamily="@font/roboto"
+                        android:gravity="center"
+                        android:text="@string/txt_otp_not_received"
+                        android:textColor="@color/colorTextGreyA7"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toTopOf="@+id/btnVerifyNumber"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvOtpExpireTimeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_67sdp"
+                        android:layout_marginBottom="@dimen/_6sdp"
+                        android:fontFamily="@font/roboto"
+                        android:gravity="center"
+                        android:text="@string/txt_expire_time"
+                        android:textColor="@color/colorTextGreyA7"
+                        android:textSize="@dimen/_10ssp"
+                        app:layout_constraintBottom_toTopOf="@+id/tvTermsConditions"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvOtpExpireTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_6sdp"
+                        android:fontFamily="@font/roboto"
+                        android:text=""
+                        android:textColor="@color/txt_otp_expiry_time"
+                        android:textSize="@dimen/_10ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvOtpExpireTimeLabel"
+                        app:layout_constraintStart_toEndOf="@+id/tvOtpExpireTimeLabel"
+                        app:layout_constraintTop_toTopOf="@+id/tvOtpExpireTimeLabel"
+                        app:layout_constraintVertical_bias="0.0"
+                        tools:text="30s" />
+
+                    <TextView
+                        android:id="@+id/tvResendOtpLink"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_9sdp"
+                        android:enabled="false"
+                        android:fontFamily="@font/roboto"
+                        android:text="@string/txt_resend_otp"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toTopOf="@+id/btnVerifyNumber"
+                        app:layout_constraintStart_toEndOf="@+id/tvTermsConditions" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".users.fragments.UsersListFragment">
@@ -15,36 +15,80 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="22dp"
             android:layout_marginTop="14dp"
+            android:fontFamily="@font/roboto_bold"
             android:text="@string/txt_select_user"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_15ssp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/buyersTabLayout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="80dp"
+            android:fillViewport="false"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSelectUserHeader"
+            app:tabBackground="@drawable/background_tab_item_selected"
+            app:tabGravity="fill"
+            app:tabIndicator="@drawable/background_tab_item_selected"
+            app:tabIndicatorColor="#FFFFFF"
+            app:tabMinWidth="@dimen/_17sdp"
+            app:tabPadding="@dimen/dp_6"
+            app:tabSelectedTextColor="@color/colorWhite"
+            app:tabTextAppearance="@style/tabBuyersTextAppearance"
+            app:tabTextColor="@color/colorPrimary" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/refreshUsers"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginTop="@dimen/_11sdp"
+            android:layout_marginBottom="@dimen/_3sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSelectUserHeader" >
+            app:layout_constraintTop_toBottomOf="@+id/buyersTabLayout">
 
-            <FrameLayout android:layout_width="match_parent"
+            <FrameLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvUsersContact"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/rvUsersContact"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
-                <include layout="@layout/no_item_layout"
-                    android:id="@+id/noUsersLayout" />
+                <include
+                    android:id="@+id/noUsersLayout"
+                    layout="@layout/no_item_layout" />
 
             </FrameLayout>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <carbon.widget.Button
+            android:id="@+id/btnAddUser"
+            style="@style/buttonAddStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_22sdp"
+            android:drawableEnd="@drawable/ic_add_24"
+            android:drawablePadding="@dimen/dp_22"
+            android:paddingStart="@dimen/dp_12"
+            android:paddingTop="@dimen/dp_14"
+            android:paddingEnd="@dimen/dp_12"
+            android:paddingBottom="@dimen/dp_14"
+            android:text="@string/add_loader"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/refreshUsers"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

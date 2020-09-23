@@ -1,17 +1,13 @@
 package com.niro.niroapp.viewmodels
 
 import android.content.Context
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.niro.niroapp.R
 import com.niro.niroapp.adapters.CommoditiesListAdapter
 import com.niro.niroapp.models.APIResponse
 import com.niro.niroapp.models.postdatamodels.UpdateCommoditiesPostData
 import com.niro.niroapp.models.responsemodels.Category
 import com.niro.niroapp.models.responsemodels.CommodityItem
-import com.niro.niroapp.models.responsemodels.MandiLocation
-import com.niro.niroapp.network.ApiClient
 import com.niro.niroapp.utils.FilterResultsListener
 import com.niro.niroapp.utils.ItemClickListener
 import com.niro.niroapp.viewmodels.repositories.CategoryListRepository
@@ -27,6 +23,8 @@ class CommoditiesViewModel : ListViewModel(), FilterResultsListener<CommodityIte
 
     private val selectedCommodities = MutableLiveData<ArrayList<CommodityItem>>(ArrayList())
 
+    private val unSelectedCommodities = MutableLiveData<ArrayList<CommodityItem>>(ArrayList())
+
     private var commoditiesAdapter: CommoditiesListAdapter? = null
 
     private lateinit var clickItemListener: ItemClickListener
@@ -40,6 +38,8 @@ class CommoditiesViewModel : ListViewModel(), FilterResultsListener<CommodityIte
 
 
     fun getSelectedCommoditiesList() = selectedCommodities
+
+    fun getUnSelectedCommodities() = unSelectedCommodities
 
     fun setCategories(categoriesList: MutableList<Category>) {
         this.categories.value = categoriesList
@@ -96,7 +96,19 @@ class CommoditiesViewModel : ListViewModel(), FilterResultsListener<CommodityIte
 
 
     override fun updateList() {
+
         commoditiesAdapter?.updateList(commoditiesList.value)
+    }
+
+
+    fun updateUnSelectedItems() {
+        unSelectedCommodities.value?.toMutableList()?.let { commoditiesAdapter?.updateSelectedItems(it) }
+    }
+
+    fun updateSelectedItems() {
+        selectedCommodities.value?.toMutableList()?.let {
+            commoditiesAdapter?.updateSelectedItems(it)
+        }
     }
 
     fun setSelectedCommodities(selectedCommodities: MutableList<CommodityItem>?) {
@@ -105,6 +117,14 @@ class CommoditiesViewModel : ListViewModel(), FilterResultsListener<CommodityIte
 
         selectedCommodities.forEach { selectedCommodity ->
             commoditiesList.value?.find { commodityItem -> commodityItem.name.equals(selectedCommodity.name) }?.isSelected = true
+        }
+    }
+
+
+    private fun updateSelectedCommoditiesInMainList() {
+        for(selectedCommodity in selectedCommodities.value ?: ArrayList()) {
+           val commodity =  commoditiesList.value?.find { item -> item.id == selectedCommodity.id }
+            commodity?.isSelected = true
         }
     }
 

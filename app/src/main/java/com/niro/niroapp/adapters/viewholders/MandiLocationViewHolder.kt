@@ -16,19 +16,24 @@ class MandiLocationViewHolder(private val viewBinding : CardMandiDetailsBinding,
         viewBinding.rbSelectItem.isChecked = item.isSelected
         viewBinding.ivItemSelected.visibility = if (item.isSelected) View.VISIBLE else View.INVISIBLE
 
-
-        viewBinding.rbSelectItem.setOnCheckedChangeListener{buttonView, isChecked ->
-
-            if(buttonView.isShown) {
-
-                item.isSelected = isChecked
-                buttonView.isChecked = isChecked
-                viewBinding.ivItemSelected.visibility =
-                    if (isChecked) View.VISIBLE else View.INVISIBLE
-                viewBinding.checkChangeListener?.onCheckChanged(item)
-            }
-
+        viewBinding.parentLayout.setOnClickListener {
+            item.isSelected = true
+            viewBinding.rbSelectItem.isChecked = true
+            viewBinding.cvMandiDetails.isSelected = true
+            viewBinding.ivItemSelected.visibility = View.VISIBLE
+            viewBinding.itemClickListener?.onItemClick(item)
         }
+//        viewBinding.rbSelectItem.setOnCheckedChangeListener{buttonView, isChecked ->
+//
+//            if(buttonView.isShown) {
+//                buttonView.isChecked = isChecked
+//                viewBinding.ivItemSelected.visibility =
+//                    if (isChecked) View.VISIBLE else View.INVISIBLE
+//                viewBinding.checkChangeListener?.onCheckChanged(item)
+//
+//            }
+//
+//        }
     }
 
 

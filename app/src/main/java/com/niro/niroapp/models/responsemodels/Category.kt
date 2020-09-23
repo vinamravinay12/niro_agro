@@ -1,7 +1,9 @@
 package com.niro.niroapp.models.responsemodels
 
+import com.google.gson.annotations.SerializedName
+
 data class Category(
-    val Id: String,
-    val commodities: List<Commodity>,
+    val id: String,
+    @SerializedName("commodties") val commodities: List<Commodity>,
     val name: String
 )

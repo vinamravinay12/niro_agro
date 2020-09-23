@@ -22,4 +22,10 @@
     <dimen name="dp_22">22dp</dimen>
     <dimen name="dp_11">11dp</dimen>
     <dimen name="dp_15">15dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
+    <dimen name="dp_0">0dp</dimen>
+    <dimen name="dp_half">0.5dp</dimen>
+    <dimen name="dp_6">6dp</dimen>
+    <dimen name="sp_12">12sp</dimen>
+    <dimen name="sp_16">16sp</dimen>
 </resources>

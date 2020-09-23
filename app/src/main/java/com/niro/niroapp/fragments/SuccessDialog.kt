@@ -10,7 +10,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import com.niro.niroapp.R
 
-class SuccessDialog() :  DialogFragment() {
+class SuccessDialog :  DialogFragment() {
 
     private lateinit var viewDataBinding : ViewDataBinding
 
@@ -32,13 +32,7 @@ class SuccessDialog() :  DialogFragment() {
         val dialog = builder.create()
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
-        handler.postDelayed(runnable, 3000);
+        handler.postDelayed(runnable, 2000);
         return dialog
     }
-
-
-
-
-
-
 }

@@ -1,17 +1,14 @@
 package com.niro.niroapp.fragments
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import carbon.dialog.ProgressDialog
@@ -22,17 +19,13 @@ import com.niro.niroapp.models.APIError
 import com.niro.niroapp.models.APILoader
 import com.niro.niroapp.models.Success
 import com.niro.niroapp.models.responsemodels.MandiLocation
-import com.niro.niroapp.utils.CheckChangeListener
-import com.niro.niroapp.utils.FragmentUtils
-import com.niro.niroapp.utils.NIroAppConstants
-import com.niro.niroapp.utils.NiroAppUtils
+import com.niro.niroapp.utils.*
 import com.niro.niroapp.viewmodels.MandiListViewModel
 import com.niro.niroapp.viewmodels.SignupViewModel
 import com.niro.niroapp.viewmodels.factories.MandiListViewModelFactory
 import com.niro.niroapp.viewmodels.factories.SignUpViewModelFactory
-import kotlin.math.sign
 
-class MandiListFragment : Fragment(), CheckChangeListener {
+class MandiListFragment : AbstractBaseFragment(), CheckChangeListener,ItemClickListener {
 
 
     private lateinit var bindingMandiListFragment: MandiListFragmentBinding
@@ -49,8 +42,8 @@ class MandiListFragment : Fragment(), CheckChangeListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            previousScreenId = it.getInt(NIroAppConstants.PREVIOUS_SCREEN_ID,-1)
-            mSelectedMandiLocation = it.getParcelable(NIroAppConstants.ARG_SELECTED_MANDI)
+            previousScreenId = it.getInt(NiroAppConstants.PREVIOUS_SCREEN_ID,-1)
+            mSelectedMandiLocation = it.getParcelable(NiroAppConstants.ARG_SELECTED_MANDI)
         }
     }
 
@@ -101,7 +94,7 @@ class MandiListFragment : Fragment(), CheckChangeListener {
                     }
 
                     is APIError -> {
-                        progressDialog?.dismiss()
+                        if(progressDialog != null && progressDialog?.isShowing == true) progressDialog?.dismiss()
                         NiroAppUtils.showSnackbar(
                             response.errorMessage,
                             bindingMandiListFragment.root
@@ -109,9 +102,9 @@ class MandiListFragment : Fragment(), CheckChangeListener {
                     }
 
                     is Success<*> -> {
-                        progressDialog?.dismiss()
+                        if(progressDialog != null && progressDialog?.isShowing == true) progressDialog?.dismiss()
                         mandiListViewModel?.setMandiList((response.data as? List<MandiLocation>)?.toMutableList())
-                        if(signUpViewModel?.getSelectedMandiLocation()?.value != null) mandiListViewModel?.setSelectedMandiLocation(mandiListViewModel?.getSelectedMandiLocation()?.value,true)
+                        if(mandiListViewModel?.getSelectedMandiLocation()?.value != null) mandiListViewModel?.setSelectedMandiLocation(mandiListViewModel?.getSelectedMandiLocation()?.value,true)
                         mandiListViewModel?.updateList()
                     }
                 }
@@ -120,6 +113,7 @@ class MandiListFragment : Fragment(), CheckChangeListener {
 
     private fun initializeListeners() {
 
+        super.registerBackPressedCallback(if(previousScreenId == -1) R.id.commoditiesFragment else previousScreenId)
         bindingMandiListFragment.btnNext.setOnClickListener {
             if (mandiListViewModel?.getSelectedMandiLocation()?.value == null) {
                 NiroAppUtils.showSnackbar(
@@ -145,21 +139,17 @@ class MandiListFragment : Fragment(), CheckChangeListener {
     private fun launchSelectUserTypeFragment() {
 
         if(previousScreenId != -1) {
-            findNavController().navigate(previousScreenId, bundleOf(NIroAppConstants.ARG_SELECTED_MANDI to mandiListViewModel?.getSelectedMandiLocation()?.value))
+            findNavController().previousBackStackEntry?.savedStateHandle?.set(NiroAppConstants.ARG_SELECTED_MANDI, mandiListViewModel?.getSelectedMandiLocation()?.value)
+            findNavController().popBackStack()
             return
         }
 
         signUpViewModel?.getSelectedMandiLocation()?.value = mandiListViewModel?.getSelectedMandiLocation()?.value
-        FragmentUtils.launchFragment(
-            activity?.supportFragmentManager,
-            view = R.id.fl_login_parent,
-            fragment = UserTypeFragment(),
-            tag = NIroAppConstants.TAG_USER_TYPE
-        )
+        findNavController().navigate(R.id.action_mandiListFragment_to_userTypeFragment)
     }
 
     private fun getVariablesMap(): HashMap<Int, Any?> {
-        return hashMapOf(BR.checkChangeListener to this)
+        return hashMapOf(BR.itemClickListener to this)
     }
 
     private fun initializeMandiListRecyclerView() {
@@ -174,9 +164,18 @@ class MandiListFragment : Fragment(), CheckChangeListener {
     override fun onCheckChanged(item: Any?) {
         FragmentUtils.hideKeyboard(bindingMandiListFragment.root,context)
         mandiListViewModel?.getSelectedMandiLocation()?.value?.isSelected = false
+        mandiListViewModel?.getUnSelectedLocation()?.value = mandiListViewModel?.getSelectedMandiLocation()?.value
         mandiListViewModel?.getSelectedMandiLocation()?.value = item as? MandiLocation
         mandiListViewModel?.updateList()
 
+    }
+
+    override fun onItemClick(item: Any?) {
+        FragmentUtils.hideKeyboard(bindingMandiListFragment.root,context)
+        mandiListViewModel?.getSelectedMandiLocation()?.value?.isSelected = false
+        mandiListViewModel?.getUnSelectedLocation()?.value = mandiListViewModel?.getSelectedMandiLocation()?.value
+        mandiListViewModel?.getSelectedMandiLocation()?.value = item as? MandiLocation
+        mandiListViewModel?.updateSelectedLocation()
     }
 
 }

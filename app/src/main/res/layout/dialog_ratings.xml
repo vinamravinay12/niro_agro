@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/_minus60sdp">
 
     <TextView
         android:id="@+id/tvRatingsHeader"
@@ -11,21 +13,36 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/rate_the_following_order"
+        android:textSize="@dimen/_14sdp"
+        android:textColor="@color/colorBlack"
+        android:alpha="0.8"
+        android:fontFamily="@font/roboto_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RatingBar
         android:id="@+id/ratingBar"
+        style="@style/ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="26dp"
-        android:layout_marginBottom="20dp"
         android:numStars="5"
         android:stepSize="0.5"
-        style="@style/ratingBar"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRatingsHeader" />
+
+    <carbon.widget.Button
+        android:id="@+id/btnSubmitRatings"
+        android:layout_width="@dimen/_160sdp"
+        android:layout_height="@dimen/_36sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:text="@string/txt_btn_submit"
+        style="@style/buttonAddStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

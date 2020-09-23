@@ -9,18 +9,20 @@ import com.niro.niroapp.models.responsemodels.User
 import com.niro.niroapp.models.responsemodels.UserPayment
 import com.niro.niroapp.utils.DateUtils
 import com.niro.niroapp.utils.FilterResultsListener
-import com.niro.niroapp.utils.NIroAppConstants
+import com.niro.niroapp.utils.NiroAppConstants
 import com.niro.niroapp.viewmodels.repositories.GetPaymentsRepository
 
-class PaymentsViewModel(private val currentUser : User?) : ListViewModel(),
+class PaymentsViewModel( currentUser : User?) : ListViewModel(),
     FilterResultsListener<UserPayment> {
 
-    private val currentUserData = MutableLiveData<User>(currentUser)
+    private val currentUserData = MutableLiveData<User>()
     private val paymentsList = MutableLiveData<MutableList<UserPayment>>()
     private val amountPrefix = MutableLiveData<String> ("")
+    private val paymentAmountDisplay = MutableLiveData<String>("")
     private var adapter : PaymentsAdapter
 
     init {
+        currentUserData.value = currentUser
         adapter = PaymentsAdapter(getViewType(),paymentsList.value,this)
     }
 
@@ -36,41 +38,53 @@ class PaymentsViewModel(private val currentUser : User?) : ListViewModel(),
 
 
     fun getPaymentDate(position : Int) : MutableLiveData<String> {
-        return if(paymentsList.value.isNullOrEmpty()) MutableLiveData("")
+        val paymentDate = MutableLiveData<String>()
+        paymentDate.value =  if(paymentsList.value.isNullOrEmpty()) ""
         else {
             val convertedDate : String? = DateUtils.convertDate(paymentsList.value?.get(position)?.paymentDate,
-                NIroAppConstants.POST_DATE_FORMAT,
-                NIroAppConstants.DISPLAY_DATE_FORMAT)
-            return MutableLiveData(convertedDate ?: "")
+                NiroAppConstants.POST_DATE_FORMAT,
+                NiroAppConstants.DISPLAY_DATE_FORMAT)
+            convertedDate ?: ""
         }
+
+        return paymentDate
     }
 
 
-    fun getOrderAmountDisplayValue(position: Int) : MutableLiveData<String> {
-        return if(paymentsList.value.isNullOrEmpty()) MutableLiveData("")
+    fun getPaymentAmountDisplayValue(position: Int) : MutableLiveData<String> {
+        val amountDisplayValue = MutableLiveData<String>()
+        amountDisplayValue.value =
+         if(paymentsList.value.isNullOrEmpty()) ""
         else {
-
             val amountString : String = paymentsList.value?.get(position)?.paymentAmount.toString() ?: "0"
-            return MutableLiveData("$amountPrefix $amountString".trim())
+           "${amountPrefix.value} $amountString".trim()
         }
+        return amountDisplayValue
     }
 
 
     fun getContactName(position: Int) : MutableLiveData<String> {
-        return if(paymentsList.value.isNullOrEmpty()) MutableLiveData("")
-        else MutableLiveData(paymentsList.value?.get(position)?.userContact?.contactName ?: "")
+        val contactName = MutableLiveData<String>()
+        contactName.value = if(paymentsList.value.isNullOrEmpty()) ""
+        else paymentsList.value?.get(position)?.userContact?.contactName ?: ""
+
+        return contactName
     }
 
     fun getMandiLocation(position: Int) : MutableLiveData<String> {
-        return if(paymentsList.value.isNullOrEmpty()) MutableLiveData("")
+
+        val mandiLocation = MutableLiveData<String>()
+
+        mandiLocation.value =  if(paymentsList.value.isNullOrEmpty()) ""
         else {
             val mandiLocation = paymentsList.value?.get(position)?.userContact?.userLocation
-
-            return MutableLiveData("${mandiLocation?.district ?: ""}, ${mandiLocation?.state ?: "" }")
+            "${mandiLocation?.district ?: ""}, ${mandiLocation?.state ?: "" }"
         }
+
+        return mandiLocation
     }
 
-    override fun getViewType(): Int = R.layout.card_order_detail
+    override fun getViewType(): Int = R.layout.card_payment_detail
 
     override fun updateList() {
         adapter.updateList(paymentsList.value)

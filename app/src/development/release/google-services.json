@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "10633069505",
+    "firebase_url": "https://niroapp.firebaseio.com",
+    "project_id": "niroapp",
+    "storage_bucket": "niroapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:10633069505:android:f23d2baa1af2378f43e540",
+        "android_client_info": {
+          "package_name": "com.niro.niroapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "10633069505-j9v5sllsl1jefi4q7lltjb89o8mihl17.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.niro.niroapp",
+            "certificate_hash": "d3db4f9493503bc46a4a1a871aa8e3f7f07f1ab0"
+          }
+        },
+        {
+          "client_id": "10633069505-jn2etb5ah6fbovr83kiaaa4ar6i0283b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxvSikLk-Sl5KLuqP3JknIVozqmCmutx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "10633069505-jn2etb5ah6fbovr83kiaaa4ar6i0283b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

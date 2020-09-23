@@ -69,6 +69,8 @@ abstract class GenericRecyclerAdapter<T : Searchable>(private var dataList: Muta
     }
 
 
+
+
     fun getItem(position: Int) : Searchable? {
         return dataList?.get(position)
     }

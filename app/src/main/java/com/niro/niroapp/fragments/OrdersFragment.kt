@@ -1,44 +1,44 @@
 package com.niro.niroapp.fragments
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.library.baseAdapters.BR
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import carbon.dialog.ProgressDialog
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.niro.niroapp.R
+import com.niro.niroapp.activities.MainActivity
 import com.niro.niroapp.adapters.RecyclerScrollDirectionListener
 import com.niro.niroapp.adapters.RecyclerScrollListener
 import com.niro.niroapp.databinding.OrdersFragmentBinding
-import com.niro.niroapp.databinding.PaymentsFragmentBinding
 import com.niro.niroapp.models.APIError
 import com.niro.niroapp.models.APILoader
 import com.niro.niroapp.models.Success
 import com.niro.niroapp.models.responsemodels.User
-import com.niro.niroapp.models.responsemodels.UserContact
 import com.niro.niroapp.models.responsemodels.UserOrder
-import com.niro.niroapp.models.responsemodels.UserType
 import com.niro.niroapp.utils.ItemClickListener
-import com.niro.niroapp.utils.NIroAppConstants
+import com.niro.niroapp.utils.NiroAppConstants
 import com.niro.niroapp.utils.NiroAppUtils
+import com.niro.niroapp.utils.OnBackPressedListener
 import com.niro.niroapp.viewmodels.OrdersViewModel
 import com.niro.niroapp.viewmodels.factories.OrdersViewModelFactory
-import kotlinx.android.synthetic.main.orders_fragment.*
 
-class OrdersFragment : Fragment(), ItemClickListener,RecyclerScrollDirectionListener {
+class OrdersFragment : Fragment(), ItemClickListener,RecyclerScrollDirectionListener, OnBackPressedListener {
 
     private var ordersViewModel: OrdersViewModel? = null
     private lateinit var bindingOrdersFragment: OrdersFragmentBinding
     private var mCurrentUser : User? = null
     private var mProgressDialog : ProgressDialog? = null
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
 
     companion object {
@@ -51,16 +51,20 @@ class OrdersFragment : Fragment(), ItemClickListener,RecyclerScrollDirectionList
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            mCurrentUser = it.getParcelable(NIroAppConstants.ARG_USER_CONTACT)
+            mCurrentUser = it.getParcelable(NiroAppConstants.ARG_CURRENT_USER) as? User
         }
+
+        firebaseAnalytics = Firebase.analytics
     }
 
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        bindingOrdersFragment = DataBindingUtil.inflate(inflater,R.layout.payments_fragment, container, false)
+        bindingOrdersFragment = DataBindingUtil.inflate(inflater,R.layout.orders_fragment, container, false)
         bindingOrdersFragment.lifecycleOwner = viewLifecycleOwner
+
+        firebaseAnalytics.setCurrentScreen(requireActivity(),getString(R.string.title_orders),null)
         return bindingOrdersFragment.root
     }
 
@@ -68,11 +72,21 @@ class OrdersFragment : Fragment(), ItemClickListener,RecyclerScrollDirectionList
         super.onActivityCreated(savedInstanceState)
         ordersViewModel = activity?.let { OrdersViewModelFactory(mCurrentUser).getViewModel(mCurrentUser, it) }
 
+        NiroAppUtils.setBackPressedCallback(requireActivity(),viewLifecycleOwner,this)
+        initializePageTitle()
+        ordersViewModel?.getAmountPrefix()?.value = getString(R.string.rupee_symbol)
+        initializeSelectedContactAndUserId()
         initializeListeners()
         initializeHeaders()
         initializeOrdersRecyclerView()
-        fetchOrders()
+    }
 
+    private fun initializePageTitle() {
+        if(activity is MainActivity) (activity as? MainActivity)?.setToolbarTitleAndImage(getString(R.string.title_orders),R.drawable.ic_orders)
+    }
+
+    private fun initializeSelectedContactAndUserId() {
+        ordersViewModel?.getCurrentUserData()
     }
 
 
@@ -93,12 +107,12 @@ class OrdersFragment : Fragment(), ItemClickListener,RecyclerScrollDirectionList
         adapter?.setVariablesMap(getVariables())
         bindingOrdersFragment.rvOrdersList.setHasFixedSize(true)
         bindingOrdersFragment.rvOrdersList.adapter = adapter
-        bindingOrdersFragment.rvOrdersList.addOnScrollListener(RecyclerScrollListener(this))
+      //  bindingOrdersFragment.rvOrdersList.addOnScrollListener(RecyclerScrollListener(this))
 
     }
 
     private fun getVariables(): HashMap<Int, Any?> {
-            return hashMapOf(BR.ordersVM to ordersViewModel, BR.itemClickListener to this)
+            return hashMapOf(BR.ordersVM to ordersViewModel, BR.itemCLickListener to this)
     }
 
     private fun initializeHeaders() {
@@ -117,7 +131,7 @@ class OrdersFragment : Fragment(), ItemClickListener,RecyclerScrollDirectionList
 
     private fun showContactsList() {
         findNavController().navigate(R.id.action_navigation_orders_to_navigation_contacts_list,
-            bundleOf(NIroAppConstants.ARG_CURRENT_USER to mCurrentUser, NIroAppConstants.ARG_NEXT_NAVIGATION_ID to R.id.action_navigation_contacts_list_to_navigation_create_order))
+            bundleOf(NiroAppConstants.ARG_CURRENT_USER to mCurrentUser, NiroAppConstants.ARG_NEXT_NAVIGATION_ID to R.id.action_navigation_contacts_list_to_navigation_create_order))
     }
 
 
@@ -127,13 +141,12 @@ class OrdersFragment : Fragment(), ItemClickListener,RecyclerScrollDirectionList
             when(response) {
 
                 is APILoader -> {
-                    if(mCurrentUser?.userType != UserType.COMMISSION_AGENT.name) handleProgress(getString(R.string.fetching_buyers),true)
-                    else handleProgress(getString(R.string.fetching_loaders),true)
+                     handleProgress(getString(R.string.fetching_orders),true)
                 }
 
                 is APIError -> {
                     handleProgress("",false)
-                    NiroAppUtils.showSnackbar(response.errorMessage,bindingOrdersFragment.root)
+                    if( response.errorCode != 422) NiroAppUtils.showSnackbar(response.errorMessage,bindingOrdersFragment.root)
                 }
 
                 is Success<*> -> {
@@ -178,9 +191,8 @@ class OrdersFragment : Fragment(), ItemClickListener,RecyclerScrollDirectionList
             mProgressDialog = context?.let { NiroAppUtils.showLoaderProgress(progressMessage, it) }
         }
 
-        else {
-            mProgressDialog?.dismiss()
-            bindingOrdersFragment.refreshOrdersList.isRefreshing = false
+        else if(!toShow && mProgressDialog?.isShowing == true){
+             mProgressDialog?.dismiss()
         }
     }
 
@@ -189,12 +201,16 @@ class OrdersFragment : Fragment(), ItemClickListener,RecyclerScrollDirectionList
     }
 
     private fun showOrderDetailsScreen(userOrder: UserOrder?) {
-
+        findNavController().navigate(R.id.action_navigation_orders_to_navigation_order_details,
+            bundleOf(NiroAppConstants.ARG_CURRENT_USER to ordersViewModel?.getCurrentUserData()?.value, NiroAppConstants.ARG_SELECTED_ORDER to userOrder))
     }
 
     override fun onScrolledDown(isDown: Boolean) {
-        bindingOrdersFragment.btnAddOrder.visibility = if(isDown) View.GONE else View.VISIBLE
+        bindingOrdersFragment.btnAddOrder.visibility = if (isDown) View.GONE else View.VISIBLE
     }
 
+    override fun onBackPressed() {
+        findNavController().popBackStack(R.id.navigation_home,false)
+    }
 
 }

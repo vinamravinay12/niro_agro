@@ -13,6 +13,10 @@
             type="Integer" />
 
         <variable
+            name="itemClickListener"
+            type="com.niro.niroapp.utils.ItemClickListener" />
+
+        <variable
             name="checkChangeListener"
             type="com.niro.niroapp.utils.CheckChangeListener" />
 
@@ -20,14 +24,15 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:id="@+id/parent_layout">
 
         <CheckBox
             android:id="@+id/cbSelectItem"
             android:layout_width="@dimen/_16sdp"
             android:layout_height="@dimen/_16sdp"
             android:layout_marginStart="24dp"
+            android:clickable="false"
             android:background="@drawable/circle_checkbox"
             android:button="@drawable/circle_checkbox"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -64,7 +69,6 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:background="@color/colorWhite"
-                    loadImage="@{commodity.image}"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/rice" />
 

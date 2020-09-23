@@ -33,7 +33,7 @@
         android:textColor="@color/colorBlack"
         android:fontFamily="@font/roboto_medium"
         android:padding="@dimen/dp_15"
-        android:gravity="center|start"
+        android:gravity="center"
         android:alpha="0.8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

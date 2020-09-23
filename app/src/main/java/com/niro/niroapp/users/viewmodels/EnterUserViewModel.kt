@@ -17,11 +17,11 @@ import com.niro.niroapp.users.viewmodels.repositories.GetUserByNumberRepository
 
 class EnterUserViewModel(selectedContact : Contact?) : ViewModel() {
 
-    private val selectedContact = MutableLiveData<Contact>(selectedContact)
+    private val selectedContactData = MutableLiveData<Contact>()
     private val contactName = MutableLiveData<String>()
     private val phoneNumber = MutableLiveData<String>()
     private val businessName = MutableLiveData<String>()
-    private val mandiLocation = MutableLiveData<MandiLocation>()
+    private val mandiLocationData = MutableLiveData<MandiLocation>()
     private val selectedCommodity = MutableLiveData<ArrayList<CommodityItem>>(ArrayList())
     private val currentUser = MutableLiveData<User>()
 
@@ -29,31 +29,38 @@ class EnterUserViewModel(selectedContact : Contact?) : ViewModel() {
     private val selectedCommodityDisplayName = MediatorLiveData<String>()
     private val checkedPhoneNumbers = MutableLiveData<MutableList<String>>()
 
+    init {
+        selectedContactData.value = selectedContact
+    }
 
-    fun getContactName() = contactName
+    fun getContactName() = contactName.apply {
+        if(!contactName.value.equals(selectedContactData.value?.name,true)) {
+            selectedContactData.value?.name = this.value
+        }
+    }
     fun getPhoneNumber() = phoneNumber
     fun getBusinessName() = businessName
-    fun getMandiLocation() = mandiLocation
+    fun getMandiLocation() = mandiLocationData
     fun getSelectedCommodity() = selectedCommodity
     fun getCurrentUser() =  currentUser
 
 
 
-    fun getMandiDisplayName() : MediatorLiveData<String> {
-        if(mandiLocation.value == null) return mandiDisplayName
-        mandiDisplayName.removeSource(mandiLocation)
-        mandiDisplayName.addSource(mandiLocation) {
-            mandiDisplayName.value = "${it.market}, ${it.state}"
-        }
+    fun getMandiDisplayName() = mandiDisplayName.apply {
+        if(mandiLocationData.value != null) {
+            addSource(mandiLocationData) {
 
-        return mandiDisplayName
+                mandiDisplayName.value = "${it.market}, ${it.state}"
+                removeSource(mandiLocationData)
+            }
+        }
     }
 
     fun getSelectedCommodityDisplayName() : MediatorLiveData<String> {
         if(selectedCommodity.value?.isEmpty() == true) return selectedCommodityDisplayName
         selectedCommodityDisplayName.removeSource(selectedCommodity)
         selectedCommodityDisplayName.addSource(selectedCommodity) {
-            if(it.isNotEmpty()) {
+            if(!it.isNullOrEmpty()) {
                 val commodityItem = it[0]
                 selectedCommodityDisplayName.value = "${commodityItem.name}"
             }
@@ -90,14 +97,14 @@ class EnterUserViewModel(selectedContact : Contact?) : ViewModel() {
     }
 
     fun validateSelectedMandi() : MutableLiveData<Int> {
-        return when (mandiLocation.value) {
+        return when (mandiLocationData.value) {
             null -> MutableLiveData(R.string.mandi_location_empty_error)
             else -> MutableLiveData(-1)
         }
     }
 
     fun validateSelectedCommodity() : MutableLiveData<Int> {
-        return when (mandiLocation.value) {
+        return when (mandiLocationData.value) {
             null -> MutableLiveData(R.string.commodity_empty_error)
             else -> MutableLiveData(-1)
         }
@@ -117,9 +124,10 @@ class EnterUserViewModel(selectedContact : Contact?) : ViewModel() {
     }
 
     fun fillContactDetails(contact : Contact?) {
-        selectedContact.value = contact
-        contactName.value = selectedContact.value?.name ?: ""
-        phoneNumber.value = selectedContact.value?.number ?: ""
+        if(contact?.name.isNullOrEmpty() || contact?.number.isNullOrEmpty()) { return }
+        selectedContactData.value = contact
+        contactName.value = selectedContactData.value?.name ?: ""
+        phoneNumber.value = selectedContactData.value?.number ?: ""
     }
 
 
@@ -127,7 +135,7 @@ class EnterUserViewModel(selectedContact : Contact?) : ViewModel() {
 
     fun createContact(context : Context?) : MutableLiveData<APIResponse> {
         val addContactPostData = AddContactPostData(currentUserId = currentUser.value?.id,
-        contactName = contactName.value,phoneNumber = phoneNumber.value,userLocation = mandiLocation.value,
+        contactName = contactName.value,phoneNumber = phoneNumber.value,userLocation = mandiLocationData.value,
             selectedCommodity = selectedCommodity.value,businessName = businessName.value)
 
         return AddContactRepository(addContactPostData,context).getResponse()
@@ -141,17 +149,19 @@ class EnterUserViewModel(selectedContact : Contact?) : ViewModel() {
         contactName.value = ""
         phoneNumber.value = ""
         selectedCommodity.value = null
-        mandiLocation.value = null
+        mandiLocationData.value = null
         businessName.value = ""
         checkedPhoneNumbers.value?.clear()
 
     }
 
     fun fillUserDetails(user: User?) {
-        contactName.value = user?.fullName ?: contactName.value
-        businessName.value = user?.businessName ?: businessName.value
-        mandiLocation.value = user?.selectedMandi ?: mandiLocation.value
-        checkedPhoneNumbers.value?.add(phoneNumber.value ?: "")
+        if(currentUser.value?.userType?.equals(user?.userType,true) != true) {
+                contactName.value = user?.fullName ?: contactName.value
+                businessName.value = user?.businessName ?: businessName.value
+                mandiLocationData.value = user?.selectedMandi ?: mandiLocationData.value
+                checkedPhoneNumbers.value?.add(phoneNumber.value ?: "")
+            }
 
     }
 

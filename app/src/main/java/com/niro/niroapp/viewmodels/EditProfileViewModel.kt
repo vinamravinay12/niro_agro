@@ -41,7 +41,9 @@ class EditProfileViewModel(private val currentUser : User?) : ViewModel() {
         if(mandiLocation.value == null) return mandiDisplayName
         mandiDisplayName.removeSource(mandiLocation)
         mandiDisplayName.addSource(mandiLocation) {
-            mandiDisplayName.value = "${it.market}, ${it.state}"
+           if(it != null) {
+               mandiDisplayName.value = "${it.market}, ${it.state}"
+           }
         }
 
         return mandiDisplayName

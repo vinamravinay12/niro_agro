@@ -1,11 +1,14 @@
 package com.niro.niroapp.network
 
 import android.content.Context
+import com.niro.niroapp.BuildConfig
+
 import com.niro.niroapp.utils.NiroAppUtils.getToken
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+
 
 object ApiClient {
 
@@ -15,7 +18,7 @@ object ApiClient {
     private fun getClient(context: Context?): Retrofit? {
         if (retrofit == null) {
             retrofit = Retrofit.Builder()
-                .baseUrl("https://niroapp.df.r.appspot.com")
+                .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(getHttpClient(context))
                 .build()

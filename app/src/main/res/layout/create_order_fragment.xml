@@ -10,7 +10,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".users.fragments.EnterUserFragment">
+    tools:context=".users.fragments.CreateManualContactFragment">
 
     <TextView
         android:id="@+id/tvOrderHeader"
@@ -22,7 +22,6 @@
         android:text="@string/text_order_details"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/_14ssp"
-        android:hint="@string/text_contact_details"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,8 +44,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_14sdp"
         style="@style/editTextForm"
-        android:text="@{createOrderVM.orderAmount}"
+        android:text="@={createOrderVM.orderAmount}"
         android:hint="@string/hint_total_amount"
+        android:inputType="numberDecimal"
         android:textAppearance="@style/formEditTextAppearance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

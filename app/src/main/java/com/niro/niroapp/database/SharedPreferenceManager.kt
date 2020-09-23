@@ -18,9 +18,7 @@ class SharedPreferenceManager constructor(private val context: Context, private 
     }
 
     private fun decryptString(encryptedMsg: String?): String? {
-        val messageAfterDecrypt: String?
-        messageAfterDecrypt = aesCrypt.decrypt(encryptedMsg)
-        return messageAfterDecrypt
+        return aesCrypt.decrypt(encryptedMsg)
     }
 
     fun storeStringPreference(preferenceName: String?, value: String) {
@@ -98,7 +96,7 @@ class SharedPreferenceManager constructor(private val context: Context, private 
         val defaultEncryptedValue = encryptString(defaultValue.toString())
         val prefValue = mPrefs.getString(preferenceName, defaultEncryptedValue)
         val value = decryptString(prefValue)
-        return if (value != null && !value.isEmpty()) value.toInt() else prefValue!!.toInt()
+        return if (value != null && value.isNotEmpty()) value.toInt() else prefValue?.toInt() ?: 0
     }
 
 

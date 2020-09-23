@@ -1,17 +1,16 @@
+
 package com.niro.niroapp.fragments
 
-import androidx.lifecycle.ViewModelProviders
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import carbon.dialog.ProgressDialog
@@ -30,7 +29,7 @@ import com.niro.niroapp.viewmodels.SignupViewModel
 import com.niro.niroapp.viewmodels.factories.CommodityViewModelFactory
 import com.niro.niroapp.viewmodels.factories.SignUpViewModelFactory
 
-class CommoditiesFragment : Fragment(), CheckChangeListener {
+class CommoditiesFragment : AbstractBaseFragment(), CheckChangeListener,ItemClickListener {
 
     companion object {
         fun newInstance() = CommoditiesFragment()
@@ -51,15 +50,15 @@ class CommoditiesFragment : Fragment(), CheckChangeListener {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            previousFragmentId = it.getInt(NIroAppConstants.PREVIOUS_SCREEN_ID, -1)
-            if (it.getParcelableArrayList<CommodityItem>(NIroAppConstants.ARG_SELECTED_COMMODITIES) != null) {
-                mSelectedCommodities =
-                    it.getParcelableArrayList<CommodityItem>(NIroAppConstants.ARG_SELECTED_COMMODITIES) as? ArrayList<CommodityItem>
-                        ?: ArrayList()
+            previousFragmentId = it.getInt(NiroAppConstants.PREVIOUS_SCREEN_ID, -1)
+            if (it.getParcelableArrayList<CommodityItem>(NiroAppConstants.ARG_SELECTED_COMMODITIES) != null) {
+                mSelectedCommodities.addAll(it.getParcelableArrayList<CommodityItem>(NiroAppConstants.ARG_SELECTED_COMMODITIES) as? ArrayList<CommodityItem>
+                    ?: ArrayList())
+
             }
-            allowMultiSelect = it.getBoolean(NIroAppConstants.ARG_ALLOW_MULTISELECT, true)
-            isEdit = it.getBoolean(NIroAppConstants.ARG_COMMODITIES_EDIT, false)
-            mCurrentUserId = it.getString(NIroAppConstants.ARG_CURRENT_USER_ID)
+            allowMultiSelect = it.getBoolean(NiroAppConstants.ARG_ALLOW_MULTISELECT, true)
+            isEdit = it.getBoolean(NiroAppConstants.ARG_COMMODITIES_EDIT, false)
+            mCurrentUserId = it.getString(NiroAppConstants.ARG_CURRENT_USER_ID)
 
         }
     }
@@ -96,7 +95,7 @@ class CommoditiesFragment : Fragment(), CheckChangeListener {
     override fun onResume() {
         super.onResume()
         FragmentUtils.hideKeyboard(bindingCommoditiesFragment.root, context)
-        (activity as? LoginActivity)?.hideChildFrameLayout(true)
+
     }
 
 
@@ -114,7 +113,7 @@ class CommoditiesFragment : Fragment(), CheckChangeListener {
                     }
 
                     is APIError -> {
-                        mProgressDialog?.dismiss()
+                        if(mProgressDialog != null && mProgressDialog?.isShowing == true) mProgressDialog?.dismiss()
                         NiroAppUtils.showSnackbar(
                             message = response.errorMessage,
                             root = bindingCommoditiesFragment.root
@@ -122,7 +121,7 @@ class CommoditiesFragment : Fragment(), CheckChangeListener {
                     }
 
                     is Success<*> -> {
-                        mProgressDialog?.dismiss()
+                        if(mProgressDialog != null && mProgressDialog?.isShowing == true) mProgressDialog?.dismiss()
                         updateCategoriesList(response.data as? List<Category>)
                     }
 
@@ -137,7 +136,11 @@ class CommoditiesFragment : Fragment(), CheckChangeListener {
         commoditiesViewModel?.updateList()
     }
 
+
     private fun initializeListeners() {
+
+        super.registerBackPressedCallback(if(previousFragmentId == -1) R.id.enterBusinessFragment else previousFragmentId)
+
         bindingCommoditiesFragment.btnNext.setOnClickListener {
             if (commoditiesViewModel?.getSelectedCommoditiesList()?.value.isNullOrEmpty()) {
                 NiroAppUtils.showSnackbar(
@@ -165,61 +168,64 @@ class CommoditiesFragment : Fragment(), CheckChangeListener {
     private fun launchSelectMandiListFragment() {
 
         if (previousFragmentId != -1) {
-            findNavController().navigate(
-                previousFragmentId,
-                bundleOf(NIroAppConstants.ARG_SELECTED_COMMODITIES to commoditiesViewModel?.getSelectedCommoditiesList()?.value)
+            findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                NiroAppConstants.ARG_SELECTED_COMMODITIES,
+                commoditiesViewModel?.getSelectedCommoditiesList()?.value
             )
+            findNavController().popBackStack()
             return
         } else if (isEdit && !mCurrentUserId.isNullOrEmpty()) {
             updateCurrentUserCommodities()
+            return
         }
 
         signUpViewModel?.getSelectedCommodities()?.value =
-            signUpViewModel?.getSelectedCommodities()?.value
+            commoditiesViewModel?.getSelectedCommoditiesList()?.value
 
-        FragmentUtils.launchFragment(
-            activity?.supportFragmentManager, view = R.id.fl_login_parent,
-            fragment = MandiListFragment.newInstance(), tag = NIroAppConstants.TAG_MANDI_LIST
-        )
+        findNavController().navigate(R.id.action_commoditiesFragment_to_mandiListFragment)
     }
 
     private fun updateCurrentUserCommodities() {
 
-        commoditiesViewModel?.updateCommodities(mCurrentUserId, context)?.observe(viewLifecycleOwner,
-            Observer { response ->
+        commoditiesViewModel?.updateCommodities(mCurrentUserId, context)
+            ?.observe(viewLifecycleOwner,
+                Observer { response ->
 
 
-                when (response) {
-                    is APILoader -> mProgressDialog = context?.let {
-                        NiroAppUtils.showLoaderProgress(
-                            message = getString(R.string.updating_commodities),
-                            context = it
-                        )
+                    when (response) {
+                        is APILoader -> mProgressDialog = context?.let {
+                            NiroAppUtils.showLoaderProgress(
+                                message = getString(R.string.updating_commodities),
+                                context = it
+                            )
+                        }
+
+                        is APIError -> {
+                            if(mProgressDialog != null && mProgressDialog?.isShowing == true) mProgressDialog?.dismiss()
+                            NiroAppUtils.showSnackbar(
+                                message = response.errorMessage,
+                                root = bindingCommoditiesFragment.root
+                            )
+                        }
+
+                        is Success<*> -> {
+                            if(mProgressDialog != null && mProgressDialog?.isShowing == true)  mProgressDialog?.dismiss()
+                            context?.let {
+                                NiroAppUtils.updateCurrentUser(
+                                    response.data as? User,
+                                    it
+                                )
+                            }
+                            findNavController().popBackStack()
+                        }
+
                     }
-
-                    is APIError -> {
-                        mProgressDialog?.dismiss()
-                        NiroAppUtils.showSnackbar(
-                            message = response.errorMessage,
-                            root = bindingCommoditiesFragment.root
-                        )
-                    }
-
-                    is Success<*> -> {
-                        mProgressDialog?.dismiss()
-                        context?.let { NiroAppUtils.updateCurrentUser(response.data as? User, it) }
-                        findNavController().popBackStack()
-                    }
-
-                }
-            })
+                })
     }
 
     private fun initializeCommoditiesRecyclerView() {
 
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
-
         bindingCommoditiesFragment.rvCommodities.layoutManager = layoutManager
 
         val commodityListAdapter = commoditiesViewModel?.getAdapter()
@@ -229,7 +235,7 @@ class CommoditiesFragment : Fragment(), CheckChangeListener {
     }
 
     private fun getVariablesMap(): HashMap<Int, Any?> {
-        return hashMapOf(BR.checkChangeListener to this)
+        return hashMapOf(BR.itemClickListener to this,BR.checkChangeListener to this)
     }
 
 
@@ -246,20 +252,66 @@ class CommoditiesFragment : Fragment(), CheckChangeListener {
         if (commoditiesViewModel?.getSelectedCommoditiesList()?.value?.isEmpty() != true) {
 
             commoditiesViewModel?.getSelectedCommoditiesList()?.value?.get(0)?.isSelected = false
+            commoditiesViewModel?.getSelectedCommoditiesList()?.value?.get(0)?.let {
+                commoditiesViewModel?.getUnSelectedCommodities()?.value?.add(it)
+            }
             commoditiesViewModel?.getSelectedCommoditiesList()?.value?.clear()
         }
 
-
         if (commodityItem != null) {
+            commodityItem.isSelected = true
             commoditiesViewModel?.getSelectedCommoditiesList()?.value?.add(commodityItem)
-            commoditiesViewModel?.updateList()
+            commoditiesViewModel?.updateUnSelectedItems()
+            commoditiesViewModel?.updateSelectedItems()
         }
     }
 
     private fun selectValues(item: Any?) {
         FragmentUtils.hideKeyboard(bindingCommoditiesFragment.root, context)
         val commodityItem = item as? CommodityItem
-        commodityItem?.let { commoditiesViewModel?.getSelectedCommoditiesList()?.value?.add(it) }
+
+        val itemIndex = commoditiesViewModel?.getSelectedCommoditiesList()?.value?.indexOfFirst { it.id == commodityItem?.id } ?: -1
+        if(itemIndex >= 0){
+           commoditiesViewModel?.getSelectedCommoditiesList()?.value?.get(itemIndex)?.isSelected = false
+            commoditiesViewModel?.updateSelectedItems()
+            removeUnSelectedItems(commodityItem)
+        } else commodityItem?.let {
+            commoditiesViewModel?.getSelectedCommoditiesList()?.value?.add(it)
+            commoditiesViewModel?.setSelectedCommodities(commoditiesViewModel?.getSelectedCommoditiesList()?.value)
+            commoditiesViewModel?.updateSelectedItems()
+
+        }
+
+    }
+
+
+    private fun removeUnSelectedItems(commodityItem: CommodityItem?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+            commoditiesViewModel?.getSelectedCommoditiesList()?.value?.removeIf { it.id == commodityItem?.id  && !it.isSelected }
+        } else {
+            searchForSelectedCommodityAndRemove(commodityItem)
+        }
+    }
+
+    private fun searchForSelectedCommodityAndRemove(commodityItem: CommodityItem?) {
+        if (commoditiesViewModel?.getSelectedCommoditiesList()?.value.isNullOrEmpty()) return
+
+        val iterator = commoditiesViewModel?.getSelectedCommoditiesList()?.value?.iterator()
+        if (iterator != null) {
+            while (iterator.hasNext()) {
+                val item = iterator.next()
+                if (item.id == commodityItem?.id && !item.isSelected) {
+                    commoditiesViewModel?.getSelectedCommoditiesList()?.value?.remove(item)
+                    break
+                }
+            }
+        }
+    }
+
+    override fun onItemClick(item: Any?) {
+        if (allowMultiSelect) selectValues(item)
+        else selectCurrentValue(item)
     }
 
 }

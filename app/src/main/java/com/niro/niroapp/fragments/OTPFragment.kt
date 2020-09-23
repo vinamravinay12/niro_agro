@@ -2,13 +2,17 @@ package com.niro.niroapp.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import carbon.dialog.ProgressDialog
+import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
@@ -17,21 +21,22 @@ import com.niro.niroapp.activities.MainActivity
 import com.niro.niroapp.database.DatabaseKeys
 import com.niro.niroapp.database.SharedPreferenceManager
 import com.niro.niroapp.databinding.LayoutEnterOtpScreenBinding
+import com.niro.niroapp.firebase.FirebaseTokenGeneratedDelegate
 import com.niro.niroapp.firebase.FirebaseTokenGenerator
-import com.niro.niroapp.firebase.FirebaseTokenGeneratorListener
 import com.niro.niroapp.models.APIError
 import com.niro.niroapp.models.Success
 import com.niro.niroapp.models.responsemodels.LoginResponse
 import com.niro.niroapp.utils.FragmentUtils
-import com.niro.niroapp.utils.NIroAppConstants
+import com.niro.niroapp.utils.NiroAppConstants
 import com.niro.niroapp.utils.NiroAppUtils
 import com.niro.niroapp.viewmodels.LoginViewModel
 import com.niro.niroapp.viewmodels.factories.LoginViewModelFactory
+import java.util.concurrent.TimeUnit
 
 
-private const val ARG_OTP = "ArgOtp"
+const val ARG_OTP = "ArgOtp"
 
-class OTPFragment : Fragment(),FirebaseTokenGeneratorListener {
+class OTPFragment : AbstractBaseFragment(), FirebaseTokenGeneratedDelegate {
 
     private var otp: String? = null
     private lateinit var bindingOtpFragment : LayoutEnterOtpScreenBinding
@@ -39,6 +44,8 @@ class OTPFragment : Fragment(),FirebaseTokenGeneratorListener {
     private var loginViewModel : LoginViewModel? = null
     private var mProgressDialog : ProgressDialog? = null
     private lateinit var mAuth : FirebaseAuth
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +62,7 @@ class OTPFragment : Fragment(),FirebaseTokenGeneratorListener {
 
         bindingOtpFragment = DataBindingUtil.inflate(inflater,R.layout.layout_enter_otp_screen, container, false)
         loginViewModel = activity?.let { LoginViewModelFactory().getViewModel(null,it) }
+
         mAuth = FirebaseAuth.getInstance()
         bindingOtpFragment.lifecycleOwner = viewLifecycleOwner
 
@@ -66,14 +74,51 @@ class OTPFragment : Fragment(),FirebaseTokenGeneratorListener {
         bindingOtpFragment.etOtp.setOtpCompletionListener { otpEntered ->
             FragmentUtils.hideKeyboard(bindingOtpFragment.root,context)
             enteredOtp = otpEntered
+
          }
 
-        bindingOtpFragment.btnVerifyNumber.setOnClickListener { verifyOtp(enteredOtp) }
+        startCountdownTimer()
+
+        initializeListeners()
+
     }
 
+
+    override fun onStart() {
+        super.onStart()
+
+        loginViewModel?.getMaxOtpRetry()?.value = 3
+    }
+
+    private fun initializeListeners() {
+
+        super.registerBackPressedCallback(R.id.loginFragment)
+
+        bindingOtpFragment.btnVerifyNumber.setOnClickListener { verifyOtp(enteredOtp) }
+
+        bindingOtpFragment.tvResendOtpLink.setOnClickListener { resendOtp() }
+    }
+
+    private fun resendOtp() {
+        if(loginViewModel?.getMaxOtpRetry()?.value ?: 0 <= 0) {
+            NiroAppUtils.showSnackbar(getString(R.string.max_otp_resend_message),bindingOtpFragment.root)
+            return
+        }
+
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+            "+91${loginViewModel?.getMobileNumber()?.value}",
+            60,
+            TimeUnit.SECONDS,
+            requireActivity(),
+            OtpResendCallback(),
+            loginViewModel?.getResendToken()?.value);
+    }
+
+
     private fun verifyOtp(otpEntered: String?) {
-        val credential = loginViewModel?.getStoredVerifciationId()?.value?.let {verificationId ->
-            otpEntered?.let { otp ->
+        if(otpEntered.isNullOrEmpty() || otpEntered.length < 6) return
+        val credential = loginViewModel?.getStoredVerificiationId()?.value?.let {verificationId ->
+            otpEntered.let { otp ->
                 PhoneAuthProvider.getCredential(
                     verificationId, otp
                 )
@@ -86,13 +131,22 @@ class OTPFragment : Fragment(),FirebaseTokenGeneratorListener {
         signInWithPhoneAuthCredential(credential)
     }
 
+
+    private fun startCountdownTimer() {
+        bindingOtpFragment.tvResendOtpLink.isEnabled = false
+        bindingOtpFragment.tvResendOtpLink.alpha = 0.54f
+        ResendOtpCountDownTimer(TimeUnit.SECONDS.toMillis(30),1000).start()
+    }
+
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential?) {
         if (credential != null) {
             mAuth.signInWithCredential(credential).addOnCompleteListener {task ->
                 if(task.isSuccessful) {
                     loginUser()
                 }
-                else NiroAppUtils.showSnackbar(getString(R.string.invalid_otp),bindingOtpFragment.root)
+                else { if(mProgressDialog != null && mProgressDialog?.isShowing == true) mProgressDialog?.dismiss()
+                    NiroAppUtils.showSnackbar(getString(R.string.invalid_otp),bindingOtpFragment.root)
+                }
             }
         }
     }
@@ -103,12 +157,11 @@ class OTPFragment : Fragment(),FirebaseTokenGeneratorListener {
             when(response) {
 
                 is APIError -> {
-                    mProgressDialog?.dismiss()
+                    if(mProgressDialog != null && mProgressDialog?.isShowing == true) mProgressDialog?.dismiss()
                     if(response.errorCode == 422) launchSignUpFragment(loginViewModel?.getMobileNumber()?.value) else NiroAppUtils.showSnackbar(response.errorMessage,bindingOtpFragment.root)
                 }
 
                 is Success<*> -> {
-
                     signInWithCustomToken(response.data as? LoginResponse)
                 }
 
@@ -128,7 +181,7 @@ class OTPFragment : Fragment(),FirebaseTokenGeneratorListener {
                     }
 
                     else {
-                        mProgressDialog?.dismiss()
+                        if(mProgressDialog != null && mProgressDialog?.isShowing == true)  mProgressDialog?.dismiss()
                         NiroAppUtils.showSnackbar(getString(R.string.login_failed),bindingOtpFragment.root)
                     }
                 }
@@ -139,8 +192,8 @@ class OTPFragment : Fragment(),FirebaseTokenGeneratorListener {
 
     private fun saveUserData(loginResponse: LoginResponse) {
         context?.let {
-            val sharedPreferenceManager = SharedPreferenceManager(it,NIroAppConstants.LOGIN_SP)
-            sharedPreferenceManager.storeComplexObjectPreference(NIroAppConstants.USER_DATA,loginResponse.data)
+            val sharedPreferenceManager = SharedPreferenceManager(it,NiroAppConstants.LOGIN_SP)
+            sharedPreferenceManager.storeComplexObjectPreference(NiroAppConstants.USER_DATA,loginResponse.data)
 
         }
 
@@ -152,30 +205,84 @@ class OTPFragment : Fragment(),FirebaseTokenGeneratorListener {
     }
 
     private fun launchSignUpFragment(phoneNumber: String?) {
-        FragmentUtils.launchFragment(activity?.supportFragmentManager,R.id.fl_login,
-            phoneNumber?.let { EnterNameFragment.newInstance(it) },NIroAppConstants.TAG_ENTER_NAME)
+        findNavController().navigate(R.id.action_OTPFragment_to_enterNameFragment, bundleOf(
+            ARG_MOBILE_NUMBER to phoneNumber))
 
     }
 
     companion object {
 
         @JvmStatic
-        fun newInstance(otp: String) =
-            OTPFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_OTP, otp)
-                }
-            }
+        fun newInstance() = OTPFragment()
     }
 
     override fun onTokenGenerated(isSuccess: Boolean) {
-        mProgressDialog?.dismiss()
+        if(mProgressDialog != null && mProgressDialog?.isShowing == true) mProgressDialog?.dismiss()
         if(isSuccess) {
-            val sharedPreferenceManager = context?.let { SharedPreferenceManager(it,NIroAppConstants.LOGIN_SP) }
+            val sharedPreferenceManager = context?.let { SharedPreferenceManager(it,NiroAppConstants.LOGIN_SP) }
             sharedPreferenceManager?.storeBooleanPreference(DatabaseKeys.KEY_LOGGED_IN,true)
             launchMainActivity()
         }
 
         else NiroAppUtils.showSnackbar(getString(R.string.login_failed),bindingOtpFragment.root)
     }
+
+
+    inner class ResendOtpCountDownTimer(private val timeDifference: Long, private val interval: Long) : CountDownTimer(timeDifference, interval) {
+
+        override fun onFinish() {
+            bindingOtpFragment.tvResendOtpLink.isEnabled = true
+            bindingOtpFragment.tvResendOtpLink.alpha = 1.0f
+
+        }
+
+        override fun onTick(millisUntilFinished: Long) {
+
+            loginViewModel?.getOtpExpiryTime()?.value = "" + String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                    TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)))
+
+            bindingOtpFragment.tvOtpExpireTime.text = loginViewModel?.getOtpExpiryTime()?.value ?: ""
+
+
+        }
+
+    }
+
+
+
+    inner class OtpResendCallback : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+        override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+            if(!credential.smsCode.isNullOrEmpty()) {
+                // launchOtpFragment(credential.smsCode ?: "")
+            }
+        }
+
+        override fun onVerificationFailed(p0: FirebaseException) {
+            Log.e("TAG","verification failed " + p0.message)
+            if(mProgressDialog != null && mProgressDialog?.isShowing == true) mProgressDialog?.dismiss()
+            NiroAppUtils.showSnackbar(getString(R.string.otp_sent_failed),bindingOtpFragment.root)
+        }
+
+        override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
+            super.onCodeSent(verificationId,token)
+            if(mProgressDialog != null && mProgressDialog?.isShowing == true) mProgressDialog?.dismiss()
+            loginViewModel?.getStoredVerificiationId()?.value = verificationId
+            loginViewModel?.getResendToken()?.value = token
+            NiroAppUtils.showSnackbar(getString(R.string.otp_sent),bindingOtpFragment.root)
+            startCountdownTimer()
+            loginViewModel?.getMaxOtpRetry()?.value = (loginViewModel?.getMaxOtpRetry()?.value  ?: 3) - 1
+
+        }
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        loginViewModel?.resetOtpValues()
+    }
+
 }

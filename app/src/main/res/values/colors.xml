@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#388E3C</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimaryDark">#388E3C</color>
+    <color name="colorAccent">#388E3C </color>
     <color name="colorNumberBoxBackground">#B7B7B7</color>
     <color name="colorTextGreyA7">#A7A7A7</color>
     <color name="backgroundSearchBox">#EEEEEE</color>
@@ -22,4 +22,6 @@
     <color name="colorBackgroundVeryLightGrey">#E6E6E6</color>
     <color name="backgroundCardContact">#F5F5F5</color>
     <color name="background_color_primary_with_alpha">#2f388E3C</color>
+    <color name="txt_otp_expiry_time">#EF5350</color>
+
 </resources>

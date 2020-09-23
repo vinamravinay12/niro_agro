@@ -10,8 +10,8 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/buyersTabLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_19sdp"
+            android:layout_width="@dimen/_175sdp"
+            android:layout_height="@dimen/_30sdp"
             android:layout_marginTop="@dimen/_17sdp"
             android:fillViewport="false"
             android:visibility="gone"
@@ -87,8 +87,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/filter_location"
+
                 android:textAppearance="@style/rbFiltersTextAppearance"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/color_rb_filters_text" />
 
             <RadioButton
                 android:id="@+id/rbCommodity"
@@ -100,7 +101,7 @@
                 android:layout_weight="1"
                 android:text="@string/filter_commodity"
                 android:textAppearance="@style/rbFiltersTextAppearance"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/color_rb_filters_text" />
 
             <RadioButton
                 android:id="@+id/rbRatings"
@@ -110,7 +111,7 @@
                 android:layout_weight="1"
                 android:text="@string/filter_ratings"
                 android:textAppearance="@style/rbFiltersTextAppearance"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/color_rb_filters_text" />
         </RadioGroup>
 
 

@@ -8,6 +8,8 @@ import android.os.Handler
 import android.util.DisplayMetrics
 import android.view.View
 import android.widget.TextView
+import com.facebook.FacebookSdk
+import com.facebook.LoggingBehavior
 import com.google.firebase.FirebaseApp
 import com.niro.niroapp.R
 import com.niro.niroapp.database.DatabaseKeys
@@ -22,7 +24,8 @@ class SplashActivity : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
         animateAppNameText(findViewById<TextView>(R.id.tvAppNameText))
         animateAppThemeText(findViewById<TextView>(R.id.tvAppThemeText))
-
+        FacebookSdk.setIsDebugEnabled(false);
+        FacebookSdk.addLoggingBehavior(LoggingBehavior.APP_EVENTS);
         refreshIdToken()
         checkIfUserLoggedInAndLaunch()
     }
@@ -38,11 +41,11 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun animateAppThemeText(view: TextView) {
-        ObjectAnimator.ofFloat(view, "translationX",getWidthOfScreen()/2).apply {
-            duration = 1500
-            startDelay = 800
-            start()
-        }
+//        ObjectAnimator.ofFloat(view, "translationX",getWidthOfScreen()/2).apply {
+//            duration = 1500
+//            startDelay = 800
+//            start()
+//        }
     }
 
     private fun animateAppNameText(view: TextView) {

@@ -5,7 +5,7 @@ import android.widget.Filter
 import com.niro.niroapp.models.responsemodels.*
 import com.niro.niroapp.utils.FilterResultsListener
 
-class ResultsFilter<T:Searchable>(
+class ResultsFilter<T : Searchable>(
     private val completeList: MutableList<T>?,
     private val filterResultListener: FilterResultsListener<T>
 ) : Filter() {
@@ -36,17 +36,43 @@ class ResultsFilter<T:Searchable>(
                         }
 
                         is Contact -> {
-                            if((item.name ?: "").contains(filterPattern,true) || (item.number ?: "").contains(filterPattern,true)) filteredList.add(item)
+                            if ((item.name ?: "").contains(filterPattern, true) || (item.number
+                                    ?: "").contains(filterPattern, true)
+                            ) filteredList.add(item)
                         }
 
                         is UserContact -> {
-                            if((item.contactName ?: "").contains(filterPattern,true) ||
-                                (item.phoneNumber ?: "").contains(filterPattern,true))filteredList.add(item)
+                            if ((item.contactName ?: "").contains(filterPattern, true) ||
+                                (item.phoneNumber ?: "").contains(filterPattern, true) ||
+                                (item.userLocation?.market ?: "").contains(filterPattern, true) ||
+                                (item.userLocation?.district ?: "").contains(filterPattern, true) ||
+                                (item.userLocation?.state ?: "").contains(filterPattern, true)
+                            ) filteredList.add(item)
                         }
 
                         is UserOrder -> {
-                            if((item.userContact?.contactName ?: "").contains(filterPattern,true) ||
-                                (item.userContact?.phoneNumber ?: "").contains(filterPattern,true))filteredList.add(item)
+                            if ((item.userContact?.contactName ?: "").contains(
+                                    filterPattern,
+                                    true
+                                ) ||
+                                (item.userContact?.phoneNumber ?: "").contains(filterPattern, true) ||
+                                    (item.orderCommodity?.isNotEmpty() == true && !item.orderCommodity[0].name.isNullOrEmpty())
+                            ) filteredList.add(item)
+                        }
+
+                        is MandiRatesRecord -> {
+                            if ((item.market ?: "").contains(filterPattern, ignoreCase = true) ||
+                                (item.district ?: "").contains(filterPattern, true) ||
+                                (item.state ?: "").contains(filterPattern, true)
+                            ) filteredList.add(item)
+                        }
+
+                        is BuyCommodity -> {
+                            if ((item.userDetails?.selectedMandi?.market ?: "").contains(filterPattern, ignoreCase = true) ||
+                                (item.userDetails?.selectedMandi?.district ?: "").contains(filterPattern, true) ||
+                                (item.userDetails?.selectedMandi?.state ?: "").contains(filterPattern, true)
+                                || (item.commodity ?: "").contains(filterPattern,true)
+                            ) filteredList.add(item)
                         }
 
                     }

@@ -2,7 +2,6 @@ package com.niro.niroapp.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.niro.niroapp.R
 import com.niro.niroapp.adapters.OrdersAdapter
 import com.niro.niroapp.models.APIResponse
@@ -11,19 +10,20 @@ import com.niro.niroapp.models.responsemodels.User
 import com.niro.niroapp.models.responsemodels.UserOrder
 import com.niro.niroapp.utils.DateUtils
 import com.niro.niroapp.utils.FilterResultsListener
-import com.niro.niroapp.utils.NIroAppConstants
+import com.niro.niroapp.utils.NiroAppConstants
 import com.niro.niroapp.viewmodels.repositories.GetOrdersRepository
 import com.niro.niroapp.viewmodels.repositories.OrdersRepository
 
-class OrdersViewModel(private val currentUser : User?) : ListViewModel(), FilterResultsListener<UserOrder> {
+class OrdersViewModel(currentUser : User?) : ListViewModel(), FilterResultsListener<UserOrder> {
 
-    private val currentUserData = MutableLiveData<User>(currentUser)
+    private val currentUserData = MutableLiveData<User>()
     private val ordersSummary = MutableLiveData<OrderSummary>()
     private val userOrdersList = MutableLiveData<MutableList<UserOrder>>()
     private val amountPrefix = MutableLiveData<String> ("")
     private var adapter : OrdersAdapter
 
     init {
+        currentUserData.value = currentUser
         adapter = OrdersAdapter(getViewType(),userOrdersList.value,this)
     }
 
@@ -32,8 +32,9 @@ class OrdersViewModel(private val currentUser : User?) : ListViewModel(), Filter
     fun getCurrentUserData() = currentUserData
     fun getOrdersSummary() = ordersSummary
     fun getUserOrdersList() = userOrdersList
+    fun getAmountPrefix() = amountPrefix
 
-    fun getOrderSummary(context: Context?) : MutableLiveData<APIResponse> = OrdersRepository(context).getResponse()
+    fun getOrderSummary(userId : String, context: Context?) : MutableLiveData<APIResponse> = OrdersRepository(userId,context).getResponse()
 
     fun getOrders(context: Context?)  : MutableLiveData<APIResponse>? = GetOrdersRepository(currentUserData.value?.id,context).getResponse()
 
@@ -41,19 +42,21 @@ class OrdersViewModel(private val currentUser : User?) : ListViewModel(), Filter
     fun getOrderReceivingDisplayDate(position : Int) : MutableLiveData<String>  {
         return if(userOrdersList.value.isNullOrEmpty()) MutableLiveData("")
         else {
-            val convertedDate : String? = DateUtils.convertDate(userOrdersList.value?.get(position)?.receivingDate,NIroAppConstants.POST_DATE_FORMAT,NIroAppConstants.DISPLAY_DATE_FORMAT)
+            val convertedDate : String? = DateUtils.convertDate(userOrdersList.value?.get(position)?.receivingDate,NiroAppConstants.POST_DATE_FORMAT,NiroAppConstants.DISPLAY_DATE_FORMAT)
             return MutableLiveData(convertedDate ?: "")
         }
     }
 
 
     fun getOrderAmountDisplayValue(position: Int) : MutableLiveData<String> {
-        return if(userOrdersList.value.isNullOrEmpty()) MutableLiveData("")
-        else {
-
-            val amountString : String = userOrdersList.value?.get(position)?.orderAmount.toString() ?: "0"
-            return MutableLiveData("$amountPrefix $amountString".trim())
-        }
+        val amountDisplayValue = MutableLiveData<String>()
+        amountDisplayValue.value =
+            if(userOrdersList.value.isNullOrEmpty()) ""
+            else {
+                val amountString : String = userOrdersList.value?.get(position)?.orderAmount.toString() ?: "0"
+                "${amountPrefix.value} $amountString".trim()
+            }
+        return amountDisplayValue
     }
 
 
@@ -67,9 +70,10 @@ class OrdersViewModel(private val currentUser : User?) : ListViewModel(), Filter
         else {
             val mandiLocation = userOrdersList.value?.get(position)?.userContact?.userLocation
 
-            return MutableLiveData("${mandiLocation?.district ?: ""}, ${mandiLocation?.state ?: "" }")
+            return MutableLiveData("${mandiLocation?.market ?: ""}, ${mandiLocation?.state ?: "" }")
         }
     }
+
 
     override fun getViewType(): Int = R.layout.card_order_detail
 
@@ -89,6 +93,15 @@ class OrdersViewModel(private val currentUser : User?) : ListViewModel(), Filter
             val ordersList = userOrdersList.value
            val sum  = ordersList?.sumBy { userOrder -> (userOrder.orderAmount.toInt()) }
             return sum ?: 0
+        }
+    }
+
+    fun getCommodityName(position : Int) = MutableLiveData<String>().apply {
+        this.value = when {
+            userOrdersList.value.isNullOrEmpty() -> ""
+            userOrdersList.value?.get(position)?.orderCommodity?.isNullOrEmpty() == true -> ""
+            position < userOrdersList.value?.size ?: 0 -> userOrdersList.value?.get(position)?.orderCommodity?.get(0)?.name ?: ""
+            else -> ""
         }
     }
 

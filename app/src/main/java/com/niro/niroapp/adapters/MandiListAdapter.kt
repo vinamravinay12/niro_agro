@@ -29,9 +29,12 @@ class MandiListAdapter(private val layoutRes : Int,
 
         if(selectedLocation == null) return
 
-        val index = dataList?.indexOfFirst { mandiLocation -> mandiLocation.market.equals(selectedLocation.market,true) }
+        val index = dataList?.indexOfFirst { mandiLocation -> mandiLocation.market.equals(selectedLocation.market,true) } ?: -1
 
-        if(index != null) notifyItemChanged(index)
+        if(index >= 0) {
+            dataList?.get(index)?.isSelected = selectedLocation.isSelected
+            notifyItemChanged(index)
+        }
     }
 
 

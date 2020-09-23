@@ -1,77 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingStart="@dimen/_9sdp"
-        android:paddingEnd="@dimen/_9sdp">
+        android:layout_height="match_parent">
 
 
-        <TextView
-            android:id="@+id/tvEnterPhoneHeader"
-            style="@style/header_login_screen_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:text="@string/txt_header_enter_phone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.cardview.widget.CardView
 
-        <com.mukesh.OtpView
-            android:id="@+id/etPhoneNumber"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_46sdp"
-            android:alpha="0.3"
-            android:inputType="number"
-            android:textIsSelectable="false"
-            android:focusedByDefault="true"
-            android:cursorVisible="true"
-            android:fontFamily="@font/roboto_bold"
-            android:itemBackground="@color/colorNumberBoxBackground"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/_14ssp"
-            app:cursorColor="@color/colorBlack"
-            app:itemCount="10"
-            app:itemHeight="@dimen/_26sdp"
-            app:itemWidth="@dimen/_19sdp"
-            app:itemSpacing="@dimen/_4sdp"
-            app:cursorWidth="@dimen/_1sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvEnterPhoneHeader"
-            app:viewType="rectangle"
-            tools:text="9431609157" />
-
-        <carbon.widget.Button
-            android:id="@+id/btnSendOtp"
-            style="@style/loginButton"
-            android:layout_width="0dp"
-            android:layout_marginBottom="@dimen/_31sdp"
-            android:text="@string/txt_send_otp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_27sdp"
+            android:layout_marginTop="@dimen/_85sdp"
+            android:layout_marginEnd="@dimen/_27sdp"
+            android:layout_marginBottom="@dimen/_120sdp"
+            app:cardCornerRadius="@dimen/_18sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tvTermsConditions"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_27sdp"
-            android:layout_marginEnd="@dimen/_27sdp"
-            android:layout_marginBottom="@dimen/_9sdp"
-            android:fontFamily="@font/roboto"
-            android:gravity="center"
-            android:text="@string/txt_agree_terms_conditions"
-            android:textColor="@color/colorTextGreyA7"
-            android:textSize="@dimen/_12ssp"
-            app:layout_constraintBottom_toTopOf="@+id/btnSendOtp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fl_login"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvEnterPhoneHeader"
+                    style="@style/header_login_screen_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/txt_header_enter_phone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.mukesh.OtpView
+                    android:id="@+id/etPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_11sdp"
+                    android:layout_marginTop="@dimen/_46sdp"
+                    android:layout_marginEnd="@dimen/_11sdp"
+                    android:alpha="0.3"
+                    android:cursorVisible="true"
+                    android:focusedByDefault="true"
+                    android:fontFamily="@font/roboto_bold"
+                    android:inputType="number"
+                    android:itemBackground="@color/colorNumberBoxBackground"
+                    android:textColor="@color/colorBlack"
+                    android:textIsSelectable="false"
+                    android:textSize="@dimen/_14ssp"
+                    app:cursorColor="@color/colorBlack"
+                    app:cursorWidth="@dimen/_1sdp"
+                    app:itemCount="10"
+                    app:itemHeight="@dimen/_26sdp"
+                    app:itemSpacing="@dimen/_4sdp"
+                    app:itemWidth="@dimen/_19sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvEnterPhoneHeader"
+                    app:viewType="rectangle"
+                    tools:text="9431609157" />
+
+                <carbon.widget.Button
+                    android:id="@+id/btnSendOtp"
+                    style="@style/loginButton"
+                    android:layout_width="0dp"
+                    android:layout_marginBottom="@dimen/_31sdp"
+                    android:text="@string/txt_send_otp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTermsConditions"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_27sdp"
+                    android:layout_marginEnd="@dimen/_27sdp"
+                    android:layout_marginBottom="@dimen/_9sdp"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center"
+                    android:visibility="invisible"
+                    android:text="@string/txt_agree_terms_conditions"
+                    android:textColor="@color/colorTextGreyA7"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintBottom_toTopOf="@+id/btnSendOtp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+            <carbon.widget.FrameLayout
+                android:id="@+id/fl_background"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_250sdp"
+                app:carbon_elevation="0dp"
+                android:background="@color/colorPrimary"
+                app:carbon_cornerCutBottomEnd="@dimen/_50sdp"
+                app:carbon_cornerCutBottomStart="@dimen/_50sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

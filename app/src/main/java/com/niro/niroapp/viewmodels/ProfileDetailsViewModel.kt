@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.niro.niroapp.models.responsemodels.User
 
-class ProfileDetailsViewModel(private val currentUser : User?) : ViewModel() {
+class ProfileDetailsViewModel( currentUser : User?) : ViewModel() {
 
     private val currentUserData = MutableLiveData<User>()
     private val userName = MutableLiveData<String>()
@@ -19,6 +19,14 @@ class ProfileDetailsViewModel(private val currentUser : User?) : ViewModel() {
     private val addressPrefix = MutableLiveData<String>()
     private val businessNamePrefix = MutableLiveData<String>()
 
+
+
+    init {
+        currentUserData.value = currentUser
+    }
+
+
+    fun getCurrentUser() = currentUserData
 
     fun getUserName() : MutableLiveData<String> {
         userName.value = "${namePrefix.value}: ${currentUserData.value?.fullName ?: ""}"
@@ -46,7 +54,7 @@ class ProfileDetailsViewModel(private val currentUser : User?) : ViewModel() {
     }
 
     fun getCommoditiesDisplayValue() : MutableLiveData<String> {
-       userCommoditiesDisplayName.value = currentUserData.value?.selectedCategories?.joinToString(separator = ", "){"${it.name}" }
+       userCommoditiesDisplayName.value = currentUserData.value?.selectedCommodities?.joinToString(separator = ", "){"${it.name}" }
 
         return userCommoditiesDisplayName
     }
@@ -57,5 +65,6 @@ class ProfileDetailsViewModel(private val currentUser : User?) : ViewModel() {
         businessNamePrefix.value = business
         addressPrefix.value = location
     }
+
 
 }

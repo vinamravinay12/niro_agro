@@ -11,7 +11,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".users.fragments.EnterUserFragment">
+        tools:context=".users.fragments.CreateManualContactFragment">
 
         <TextView
             android:id="@+id/tvEditUserDetails"
@@ -20,7 +20,6 @@
             android:layout_marginStart="@dimen/_17sdp"
             android:layout_marginTop="@dimen/_14sdp"
             android:fontFamily="@font/roboto_bold"
-            android:hint="@string/text_contact_details"
             android:text="@string/text_edit_profile"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_14ssp"
@@ -51,6 +50,7 @@
             android:text="@={editProfileVM.phoneNumber}"
             android:textAppearance="@style/formEditTextAppearance"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etEnterName" />
 

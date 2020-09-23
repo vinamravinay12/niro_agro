@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="detailVM"
+            type="com.niro.niroapp.viewmodels.OrderDetailsViewModel" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.OrderDetailsFragment">
+
+    <include
+        android:id="@+id/cardOrderDetail"
+        layout="@layout/details_card_order_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivSource"
+        android:layout_width="@dimen/_36sdp"
+        android:layout_height="@dimen/_36sdp"
+        android:layout_marginStart="@dimen/_42sdp"
+        android:layout_marginTop="@dimen/_37sdp"
+        android:background="@drawable/cicular_image_green"
+        android:padding="@dimen/dp_8"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/ic_commodity_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardOrderDetail" />
+
+    <TextView
+        android:id="@+id/tvSourceLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:alpha="0.64"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:ems="8"
+        android:text='@{String.format(@string/text_source_location,detailVM.sourceLocation)}'
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_10ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivSource" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="@dimen/_36sdp"
+        android:layout_height="@dimen/_36sdp"
+        android:layout_marginTop="@dimen/_37sdp"
+        android:layout_marginEnd="@dimen/_42sdp"
+        android:background="@drawable/cicular_image_green"
+        android:padding="@dimen/dp_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardOrderDetail"
+        app:srcCompat="@drawable/ic_location_24" />
+
+    <TextView
+        android:id="@+id/tvDestination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="0dp"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:alpha="0.64"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:ems="10"
+        android:text='@{String.format(@string/text_destination,detailVM.destinationLocation)}'
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:paddingEnd="@dimen/_5sdp"
+        tools:text="Destination:\nBalodaBazaar, Chattisgarh"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_10ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/dashed_line_separator"
+
+        android:layerType="software"
+        app:layout_constraintEnd_toStartOf="@+id/imageView6"
+        app:layout_constraintStart_toEndOf="@+id/ivSource"
+        app:layout_constraintTop_toBottomOf="@+id/cardOrderDetail" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_174sdp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="48dp"
+        android:background="@drawable/background_payment_details"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/tvPyamentDetailsHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@string/text_payment_details"
+            android:textAppearance="@style/txtPaymentDetails"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTotalAmountLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/text_total_amount"
+            android:textAppearance="@style/txtPaymentDetails"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPyamentDetailsHeader" />
+
+        <TextView
+            android:id="@+id/tvTotalAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:text="@{detailVM.totalAmount}"
+            android:textAppearance="@style/txtPaymentDetails"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPyamentDetailsHeader" />
+
+        <TextView
+            android:id="@+id/tvAmountPaidLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:text="@string/text_amount_paid"
+            android:textAppearance="@style/txtPaymentDetails"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalAmountLabel" />
+
+        <TextView
+            android:id="@+id/tvAmountPaid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:text="@{detailVM.amountPaid}"
+            android:textAppearance="@style/txtPaymentDetails"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalAmount" />
+
+        <TextView
+            android:id="@+id/tvAmountPendingLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:text="@string/text_amount_pending"
+            android:textAppearance="@style/txtPaymentDetails"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAmountPaidLabel" />
+
+        <TextView
+            android:id="@+id/tvAmountPending"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:text="@{detailVM.amountPending}"
+            android:textAppearance="@style/txtPaymentDetails"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAmountPaid" />
+        <TextView
+            android:id="@+id/tvImageLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:text="@string/text_image"
+            android:textAppearance="@style/txtPaymentDetails"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAmountPendingLabel" />
+
+        <ImageView
+            android:id="@+id/ivOrderImage"
+            android:layout_width="@dimen/_47sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:text="@string/text_total_amount"
+            app:srcCompat="@drawable/rice"
+            android:scaleType="fitCenter"
+            android:background="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAmountPending" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

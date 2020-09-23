@@ -14,15 +14,18 @@ import com.niro.niroapp.viewmodels.repositories.MandiLocationRepository
 
 class MandiListViewModel : ListViewModel(), FilterResultsListener<MandiLocation> {
 
-    private var mandiList = MutableLiveData<MutableList<MandiLocation>>()
+    private var mandiList = MutableLiveData<MutableList<MandiLocation>>(ArrayList())
     private var mandiListAdapter : MandiListAdapter? = null
     private var selectedMandiLocation = MutableLiveData<MandiLocation>()
+    private var unSelectedLocation = MutableLiveData<MandiLocation>()
 
     init {
         mandiListAdapter = MandiListAdapter(getViewType(),mandiList.value,this)
     }
 
     fun getAdapter() = mandiListAdapter
+
+    fun getUnSelectedLocation() = unSelectedLocation
 
     fun getSelectedMandiLocation() = selectedMandiLocation
 
@@ -42,6 +45,12 @@ class MandiListViewModel : ListViewModel(), FilterResultsListener<MandiLocation>
 
     override fun updateList() {
         mandiListAdapter?.updateList(mandiList.value)
+    }
+
+    fun updateSelectedLocation() {
+        mandiListAdapter?.updateSelectedItem(unSelectedLocation.value)
+        mandiListAdapter?.updateSelectedItem(selectedMandiLocation.value)
+
     }
 
     override fun onResultsFiltered(filteredList: List<MandiLocation>) {

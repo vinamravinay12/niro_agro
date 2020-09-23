@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "93013620334",
+    "firebase_url": "https://niro-agri-20.firebaseio.com",
+    "project_id": "niro-agri-20",
+    "storage_bucket": "niro-agri-20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93013620334:android:fdfc8b23179651a3dbd87f",
+        "android_client_info": {
+          "package_name": "com.niro.niroapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "93013620334-9n8ekvs4fq4i5mt003s7k8dk453q8nbt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.niro.niroapp",
+            "certificate_hash": "24d57ee6ebe45fca3eabefbd3abe5de20294b249"
+          }
+        },
+        {
+          "client_id": "93013620334-hjvanfsltiqfu7gghnbt1mv81lp7h66q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBynemj7iNdrM02PxiJjfuDW82WfpT8rEc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93013620334-hjvanfsltiqfu7gghnbt1mv81lp7h66q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

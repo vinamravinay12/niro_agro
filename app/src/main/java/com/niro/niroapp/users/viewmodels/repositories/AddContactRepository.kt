@@ -2,6 +2,7 @@ package com.niro.niroapp.users.viewmodels.repositories
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import com.niro.niroapp.models.APIError
 import com.niro.niroapp.models.APILoader
 import com.niro.niroapp.models.APIResponse
@@ -29,8 +30,19 @@ class AddContactRepository(private val addContactPostData: AddContactPostData, c
                 response: Response<GenericAPIResponse<String>>) {
 
                 if(response.body()?.success != true) {
-                    responseData.value = APIError(response.code(),response.body()?.message ?: getDefaultErrorMessage())
-                    return
+                    try {
+                        val errorResponse = Gson().fromJson<GenericAPIResponse<Any>>(
+                            response.errorBody()?.charStream(),
+                            GenericAPIResponse::class.java
+                        )
+                        responseData.value = APIError(
+                            response.code(),
+                            if (!errorResponse.message.isNullOrEmpty()) errorResponse.message else getDefaultErrorMessage()
+                        )
+                        return
+                    } catch (exception : Exception) {
+                        responseData.value = APIError(response.code(), getDefaultErrorMessage())
+                    }
                 }
 
                 responseData.value = Success<String>(response.body()?.data)

@@ -6,6 +6,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.niro.niroapp.R
 import com.niro.niroapp.databinding.CardCommodityItemBinding
 import com.niro.niroapp.models.responsemodels.CommodityItem
+import com.squareup.picasso.Picasso
 
 class CommodityItemViewHolder(
     private val viewBinding: CardCommodityItemBinding,
@@ -23,23 +24,28 @@ class CommodityItemViewHolder(
         viewBinding.ivItemSelected.visibility = if (item.isSelected) View.VISIBLE else View.INVISIBLE
 
 
-        Glide.with(viewBinding.ivCommodity).load(item.image)
+
+        Glide.with(viewBinding.ivCommodity).load(item.image).thumbnail(0.2f)
             .diskCacheStrategy(DiskCacheStrategy.ALL).centerCrop().placeholder(
             R.drawable.rice
         ).into(viewBinding.ivCommodity)
 
+        viewBinding.parentLayout.setOnClickListener{
 
-        viewBinding.cbSelectItem.setOnCheckedChangeListener { buttonView, isChecked ->
-
-
-            if(buttonView.isShown) {
-                item.isSelected = isChecked || item.isSelected
-                viewBinding.ivItemSelected.visibility =
-                    if (isChecked) View.VISIBLE else View.INVISIBLE
-                viewBinding.checkChangeListener?.onCheckChanged(item)
-            }
-
+            viewBinding.cbSelectItem.isChecked = true
+            viewBinding.ivItemSelected.visibility = View.VISIBLE
+            viewBinding.itemClickListener?.onItemClick(item)
         }
+//        viewBinding.cbSelectItem.setOnCheckedChangeListener { buttonView, isChecked ->
+//
+//            if(buttonView.isShown) {
+//
+//                viewBinding.ivItemSelected.visibility =
+//                    if (isChecked) View.VISIBLE else View.INVISIBLE
+//                viewBinding.checkChangeListener?.onCheckChanged(item)
+//            }
+//
+//        }
     }
 
 }

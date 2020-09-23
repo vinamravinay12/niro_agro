@@ -7,7 +7,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.niro.niroapp.database.SharedPreferenceManager
-import com.niro.niroapp.utils.NIroAppConstants
+import com.niro.niroapp.utils.NiroAppConstants
 import java.util.*
 
 class PushNotificationMessagingService : FirebaseMessagingService() {
@@ -26,13 +26,13 @@ class PushNotificationMessagingService : FirebaseMessagingService() {
 
 
     private fun storeNewToken(token: String) {
-        val sharedPreferenceManager = SharedPreferenceManager(context = this,name = NIroAppConstants.NOTIFICATION_SP)
-        if(TextUtils.isEmpty(sharedPreferenceManager.getStringPreference(NIroAppConstants.USER_FCMTOKENID))) {
-            sharedPreferenceManager.storeStringPreference(NIroAppConstants.USER_FCMTOKENID, token)
+        val sharedPreferenceManager = SharedPreferenceManager(context = this,name = NiroAppConstants.NOTIFICATION_SP)
+        if(TextUtils.isEmpty(sharedPreferenceManager.getStringPreference(NiroAppConstants.USER_FCMTOKENID))) {
+            sharedPreferenceManager.storeStringPreference(NiroAppConstants.USER_FCMTOKENID, token)
         }
 
         val uniqueId = UUID.randomUUID().toString()
-        sharedPreferenceManager.storeStringPreference(NIroAppConstants.USER_DEVICEID,uniqueId)
+        sharedPreferenceManager.storeStringPreference(NiroAppConstants.USER_DEVICEID,uniqueId)
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
