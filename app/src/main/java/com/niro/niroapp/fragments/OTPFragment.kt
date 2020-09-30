@@ -78,7 +78,6 @@ class OTPFragment : AbstractBaseFragment(), FirebaseTokenGeneratedDelegate {
          }
 
         startCountdownTimer()
-
         initializeListeners()
 
     }

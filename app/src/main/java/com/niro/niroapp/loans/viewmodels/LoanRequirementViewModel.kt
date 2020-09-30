@@ -1,6 +1,7 @@
 package com.niro.niroapp.loans.viewmodels
 
 import android.content.Context
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.niro.niroapp.loans.models.LoanRequestPostData
@@ -24,7 +25,7 @@ class LoanRequirementViewModel(private val currentUser : User?) : ViewModel() {
 
     fun createLoanRequirement(context : Context?) : MutableLiveData<APIResponse>{
         val loanRequestPostData = LoanRequestPostData(currentUserId = currentUserData.value?.id,
-            capitalRequired = if(capitalRequired.value.isNullOrEmpty()) capitalRequired.value?.toDouble() ?: 0.0 else 0.0,
+            capitalRequired = if(!capitalRequired.value.isNullOrEmpty() && capitalRequired.value?.isDigitsOnly() == true) capitalRequired.value?.toDouble() ?: 0.0 else 0.0,
             timePeriod = timeInMonths.value?.toInt() ?: 0)
 
         return LoanRequestRepository(loanRequestPostData,context).getResponse()

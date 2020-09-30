@@ -61,7 +61,6 @@ class UserTypeFragment : AbstractBaseFragment(),FirebaseTokenGeneratedDelegate {
 
 
 
-
     private fun initializeListeners() {
 
         super.registerBackPressedCallback(R.id.mandiListFragment)
